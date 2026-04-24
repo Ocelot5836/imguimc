@@ -1,0 +1,36 @@
+package foundry.imgui.neoforge.impl;
+
+import foundry.imgui.api.ImGuiMC;
+import foundry.imgui.impl.ImGuiMCImpl;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+
+@Mod(value = ImGuiMC.MOD_ID, dist = Dist.CLIENT)
+public class ImGuiMCNeoforge {
+
+    public ImGuiMCNeoforge(final IEventBus bus) {
+        ImGuiMCImpl.init();
+
+        //? if < 1.21.4 {
+        /*bus.<net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent>addListener(event -> {
+            ImGuiMCImpl.initHandler();
+            if (ImGuiMCImpl.handler == null) {
+                return;
+            }
+
+            event.registerReloadListener(ImGuiMCImpl.handler.getFontManager());
+        });
+        *///?} else if >= 1.21.11 {
+        final net.minecraft.resources.Identifier id = net.minecraft.resources.Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
+        bus.<net.neoforged.neoforge.client.event.AddClientReloadListenersEvent>addListener(event -> {
+            ImGuiMCImpl.initHandler();
+            if (ImGuiMCImpl.handler == null) {
+                return;
+            }
+
+            event.addListener(id, ImGuiMCImpl.handler.getFontManager());
+        });
+        //?}
+    }
+}

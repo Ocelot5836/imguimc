@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "${description}",
+  "authors": [
+    "${author}"
+  ],
+  "contact": {
+    "sources": "https://codeberg.org/stonecutter/template-fabric"
+  },
+  "license": "${license}",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "foundry.imgui.fabric.impl.ImGuiMCFabric"
+    ]
+  },
+  "mixins": [
+    "${id}.mixins.json",
+    "${id}.fabric.mixins.json"
+  ],
+  "accessWidener": "${id}.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.17",
+    "minecraft": "${minecraft}",
+    "java": ">=${java}"
+  }
+}
+
+

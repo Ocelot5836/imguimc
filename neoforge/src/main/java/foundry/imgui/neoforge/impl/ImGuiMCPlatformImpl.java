@@ -1,0 +1,28 @@
+package foundry.imgui.neoforge.impl;
+
+import foundry.imgui.impl.platform.ImGuiMCPlatform;
+import foundry.imgui.neoforge.api.event.RegisterImGuiFontsEventNeoforge;
+import foundry.imgui.neoforge.api.event.RenderImGuiEventsNeoforge;
+import imgui.ImFont;
+import imgui.ImFontAtlas;
+import net.neoforged.neoforge.common.NeoForge;
+import org.jetbrains.annotations.ApiStatus;
+
+@ApiStatus.Internal
+public class ImGuiMCPlatformImpl implements ImGuiMCPlatform {
+
+    @Override
+    public void registerImGuiFonts(final ImFontAtlas atlas, final ImFont defaultFont) {
+        NeoForge.EVENT_BUS.post(new RegisterImGuiFontsEventNeoforge(atlas, defaultFont));
+    }
+
+    @Override
+    public void drawImGuiPre() {
+        NeoForge.EVENT_BUS.post(new RenderImGuiEventsNeoforge.Pre());
+    }
+
+    @Override
+    public void drawImGuiPost() {
+        NeoForge.EVENT_BUS.post(new RenderImGuiEventsNeoforge.Pre());
+    }
+}

@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "foundry.imgui.mixin",
+  "refmap": "${id}.refmap.json",
+  "compatibilityLevel": "JAVA_18",
+  "client": [
+    "KeyboardHandlerMixin",
+    "MinecraftMixin",
+    "MouseHandlerMixin"
+  ],
+  "plugin": "foundry.imgui.impl.ImGuiMCMixinPluginImpl",
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+

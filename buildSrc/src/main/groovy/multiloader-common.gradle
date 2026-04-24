@@ -1,0 +1,89 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+version = "${findProperty("mod.version")}+${sc.current.version}"
+
+base {
+    archivesName = "${findProperty("mod.id")}-${project.parent.name}"
+}
+
+def java_version = {
+    if (sc.current.parsed >= "1.20.5") {
+        JavaVersion.VERSION_21
+    } else if (sc.current.parsed >= "1.18") {
+        JavaVersion.VERSION_17
+    } else if (sc.current.parsed >= "1.17") {
+        JavaVersion.VERSION_16
+    } else {
+        JavaVersion.VERSION_1_8
+    }
+}()
+
+java {
+    targetCompatibility = java_version
+    sourceCompatibility = java_version
+    withSourcesJar()
+}
+
+// Declare capabilities on the outgoing configurations.
+// Read more about capabilities here: https://docs.gradle.org/current/userguide/component_capabilities.html#sec:declaring-additional-capabilities-for-a-local-component
+['apiElements', 'runtimeElements', 'sourcesElements'].each { variant ->
+    configurations."$variant".outgoing {
+        capability("$group:${base.archivesName.get()}:$version")
+        capability("$group:${findProperty("mod.id")}-${project.parent.name}-${sc.current.version}:$version")
+        capability("$group:${findProperty("mod.id")}:$version")
+    }
+    publishing.publications.configureEach {
+        suppressPomMetadataWarningsFor(variant)
+    }
+}
+
+tasks.register('listSourceSets') {
+    doLast {
+        sourceSets.each { srcSet ->
+            println "[${srcSet.name}]"
+            println "  Java: ${srcSet.java.srcDirs}"
+            println "  Resources: ${srcSet.resources.srcDirs}"
+        }
+    }
+}
+
+sourcesJar {
+    from(rootProject.file('LICENSE')) {
+        rename { "${it}_${findProperty("mod.id")}" }
+    }
+}
+
+jar {
+    from(rootProject.file('LICENSE')) {
+        rename { "${it}_${findProperty("mod.id")}" }
+    }
+
+    manifest {
+        attributes([
+                'Specification-Title'   : findProperty("mod.name"),
+                'Specification-Vendor'  : findProperty("mod.author"),
+                'Specification-Version' : project.jar.archiveVersion,
+                'Implementation-Title'  : project.name,
+                'Implementation-Version': project.jar.archiveVersion,
+                'Implementation-Vendor' : findProperty("mod.author"),
+                'Built-On-Minecraft'    : sc.current.version
+        ])
+    }
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            artifactId base.archivesName.get()
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url System.getenv('local_maven_url')
+        }
+    }
+}

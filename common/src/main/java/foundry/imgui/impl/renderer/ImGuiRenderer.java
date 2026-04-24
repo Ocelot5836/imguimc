@@ -1,0 +1,20 @@
+package foundry.imgui.impl.renderer;
+
+import foundry.imgui.api.ImGuiTextureProvider;
+import imgui.ImDrawData;
+import org.jetbrains.annotations.ApiStatus;
+import org.lwjgl.system.NativeResource;
+
+@ApiStatus.Internal
+public interface ImGuiRenderer extends NativeResource {
+
+    void init();
+
+    void newFrame();
+
+    void renderDrawData(ImDrawData drawData);
+
+    void recreateFontsTexture();
+
+    long getImGuiId(ImGuiTextureProvider texture);
+}

@@ -1,0 +1,33 @@
+package foundry.imgui.neoforge.api.event;
+
+import foundry.imgui.api.ImGuiMC;
+import imgui.ImFont;
+import imgui.ImFontAtlas;
+import net.neoforged.bus.api.Event;
+import org.jetbrains.annotations.ApiStatus;
+
+/**
+ * Fired when the font atlas is rebuilt before the next ImGui frame.
+ *
+ * @see ImGuiMC#rebuildFonts()
+ * @since 1.0.0
+ */
+public final class RegisterImGuiFontsEventNeoforge extends Event {
+
+    private final ImFontAtlas atlas;
+    private final ImFont defaultFont;
+
+    @ApiStatus.Internal
+    public RegisterImGuiFontsEventNeoforge(final ImFontAtlas atlas, final ImFont defaultFont) {
+        this.atlas = atlas;
+        this.defaultFont = defaultFont;
+    }
+
+    public ImFontAtlas getAtlas() {
+        return this.atlas;
+    }
+
+    public ImFont getDefaultFont() {
+        return this.defaultFont;
+    }
+}
