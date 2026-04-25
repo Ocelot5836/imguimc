@@ -9,10 +9,12 @@
     "${author}"
   ],
   "contact": {
-    "sources": "https://codeberg.org/stonecutter/template-fabric"
+    "issues": "https://github.com/Ocelot5836/imguimc/issues",
+    "sources": "https://github.com/Ocelot5836/imguimc"
   },
   "license": "${license}",
   "environment": "client",
+  "accessWidener": "${id}.classtweaker",
   "entrypoints": {
     "client": [
       "foundry.imgui.fabric.impl.ImGuiMCFabric"
@@ -28,6 +30,9 @@
     "minecraft": "${minecraft}",
     "java": ">=${java}"
   },
+  "breaks": {
+    "veil": "<4.0.0"
+  },
   "custom": {
     "modmenu": {
       "links": {
@@ -39,5 +44,3 @@
     }
   }
 }
-
-
