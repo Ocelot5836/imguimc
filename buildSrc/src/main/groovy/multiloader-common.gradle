@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-version = "${rootProject.property("mod.version")}+${sc.current.version}"
+version = "${rootProject.property("mod.version")}+mc${sc.current.version}"
 
 base {
     archivesName = "${rootProject.property("mod.id")}-${project.parent.name.split("-")[0]}"
@@ -72,14 +72,25 @@ jar {
 
 publishing {
     publications {
-        register('mavenJava', MavenPublication) {
-            artifactId base.archivesName.get()
+        mavenJava(MavenPublication) {
+            artifactId = base.archivesName.get()
             from components.java
         }
     }
+
     repositories {
+        mavenLocal()
         maven {
-            url System.getenv('local_maven_url')
+            url = System.getenv('local_maven_url')
+
+            credentials {
+                username = System.getenv('local_maven_user')
+                password = System.getenv('local_maven_token')
+            }
+
+            authentication {
+                basic(BasicAuthentication)
+            }
         }
     }
 }

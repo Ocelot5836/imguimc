@@ -1,24 +1,20 @@
 plugins {
     id("dev.kikugie.stonecutter")
     id("net.neoforged.moddev") version "2.0.140" apply false
-    id("net.fabricmc.fabric-loom-remap") version "1.15-SNAPSHOT" apply false
+    id("net.fabricmc.fabric-loom") version "1.16-SNAPSHOT" apply false
     id("me.modmuss50.mod-publish-plugin") version "1.0.+" apply false
-
-    id("com.google.devtools.ksp") version "2.3.7" apply false
-    id("dev.kikugie.fletching-table") version "0.1.0-alpha.22" apply false
-    id("dev.kikugie.fletching-table.neoforge") version "0.1.0-alpha.22" apply false
-    id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.22" apply false
 }
 
 stonecutter active "1.21.1"
 
-/*
-// Make newer versions be published last
-stonecutter tasks {
-    order("publishModrinth")
-    order("publishCurseforge")
+// Make newer versions published last
+if (project.parent != null && !project.parent!!.name.equals("common", ignoreCase = true)) {
+    stonecutter tasks {
+        order("publishModrinth")
+        order("publishCurseforge")
+        order("publishGithub")
+    }
 }
- */
 
 // See https://stonecutter.kikugie.dev/wiki/config/params
 stonecutter parameters {
