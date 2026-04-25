@@ -29,11 +29,6 @@ neoForge {
             gameDirectory = file("../../run/")
             client()
         }
-
-        register("server") {
-            gameDirectory = file("../../run/")
-            server()
-        }
     }
 
     mods {

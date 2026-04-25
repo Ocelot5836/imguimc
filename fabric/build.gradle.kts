@@ -14,6 +14,7 @@ loom {
         options.put("mark-corresponding-synthetics", "1") // Adds names to lambdas - useful for mixins
     }
 
+    runConfigs.remove(runConfigs["server"])
     runConfigs.all {
         configName = "Fabric ${environment.capitalized()}"
         ideConfigGenerated(true)
