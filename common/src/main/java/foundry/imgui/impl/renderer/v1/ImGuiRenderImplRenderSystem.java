@@ -224,7 +224,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private void renderDrawData(final ImDrawData drawData, final OptionalInt clearColor) {
+    private void renderDrawData(final ImDrawData drawData, final RenderTarget renderTarget, final OptionalInt clearColor) {
         // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
         final int fbWidth = (int) (drawData.getDisplaySizeX() * drawData.getFramebufferScaleX());
         final int fbHeight = (int) (drawData.getDisplaySizeY() * drawData.getFramebufferScaleY());
@@ -326,11 +326,6 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         // TODO viewport
 
         final GpuBufferSlice projectionMatrixBuffer = this.data.projectionMatrixBuffer.getBuffer(L, R, B, T);
-        //? if <= 26.1 {
-        final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
-        //? } else {
-        /^final RenderTarget renderTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget();
-        ^///? }
 
         try (final RenderPass renderPass = commandEncoder.createRenderPass(() -> "ImGui", renderTarget.getColorTextureView(), clearColor)) {
             renderPass.setPipeline(PIPELINE);
@@ -415,8 +410,8 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
     }
 
     @Override
-    public void renderDrawData(final ImDrawData drawData) {
-        this.renderDrawData(drawData, OptionalInt.empty());
+    public void renderDrawData(final ImDrawData drawData, final RenderTarget renderTarget) {
+        this.renderDrawData(drawData, renderTarget, OptionalInt.empty());
     }
 
     @Override
@@ -520,7 +515,13 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
     private final class RendererRenderWindowFunction extends ImPlatformFuncViewport {
         @Override
         public void accept(final ImGuiViewport vp) {
-            ImGuiRenderImplRenderSystem.this.renderDrawData(vp.getDrawData(), !vp.hasFlags(ImGuiViewportFlags.NoRendererClear) ? OptionalInt.of(0) : OptionalInt.empty());
+            //? if <= 26.1 {
+            final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
+             //? } else {
+            /^final RenderTarget renderTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget();
+            ^///? }
+
+            ImGuiRenderImplRenderSystem.this.renderDrawData(vp.getDrawData(), renderTarget, !vp.hasFlags(ImGuiViewportFlags.NoRendererClear) ? OptionalInt.of(0) : OptionalInt.empty());
         }
     }
 

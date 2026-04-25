@@ -15,19 +15,13 @@ public final class ImGuiMCImpl {
 
     public static ImGuiHandler handler;
 
-    public static void init(){
-        ImGuiMCEvents.INSTANCE.preRenderImGuiEvents(()->{
-            if (ImGui.begin("Test")) {
-
-            }
-            ImGui.end();
-        });
+    public static void init() {
     }
 
     public static void initHandler() {
         //? if <=1.21.8 {
         final long window = Minecraft.getInstance().getWindow().getWindow();
-        //? } else {
+         //? } else {
         /*final long window = Minecraft.getInstance().getWindow().handle();
         *///? }
 

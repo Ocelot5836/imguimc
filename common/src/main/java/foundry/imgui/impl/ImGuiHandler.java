@@ -92,7 +92,7 @@ public class ImGuiHandler {
             final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
             //? } else {
             /*final RenderTarget renderTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget();
-            *///? }
+             *///? }
 
             this.start();
 
@@ -129,8 +129,26 @@ public class ImGuiHandler {
             ImGuiMCPlatform.INSTANCE.drawImGuiPost();
 
             this.active.set(false);
+
+            //? if <= 26.1 {
+            final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
+            //? } else {
+            /*final RenderTarget renderTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget();
+             *///? }
+
+            //? if >=1.21.6 {
+            /*final com.mojang.blaze3d.textures.GpuTextureView view = renderTarget.getColorTextureView();
+            final int framebufferWidth = view.getWidth(0);
+            final int framebufferHeight = view.getHeight(0);
+            *///? } else {
+            final int framebufferWidth = renderTarget.width;
+            final int framebufferHeight = renderTarget.height;
+            //? }
+
             ImGui.render();
-            this.rendererImpl.renderDrawData(ImGui.getDrawData());
+            if (this.windowImpl.isCorrectSize(framebufferWidth, framebufferHeight)) {
+                this.rendererImpl.renderDrawData(ImGui.getDrawData(), renderTarget);
+            }
 
             if (ImGui.getIO().hasConfigFlags(ImGuiConfigFlags.ViewportsEnable)) {
                 final long backupWindowPtr = glfwGetCurrentContext();

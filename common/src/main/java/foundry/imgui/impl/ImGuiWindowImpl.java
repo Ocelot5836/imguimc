@@ -870,6 +870,10 @@ public class ImGuiWindowImpl {
         this.updateGamepads();
     }
 
+    public boolean isCorrectSize(final int width, final int height) {
+        return this.props.displayW[0] == width && this.props.displayH[0] == height;
+    }
+
     //--------------------------------------------------------------------------------------------------------
     // MULTI-VIEWPORT / PLATFORM INTERFACE SUPPORT
     // This is an _advanced_ and _optional_ feature, allowing the backend to create and handle multiple viewports simultaneously.

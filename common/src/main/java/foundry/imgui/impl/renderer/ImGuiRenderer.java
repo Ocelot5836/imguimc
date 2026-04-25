@@ -1,5 +1,6 @@
 package foundry.imgui.impl.renderer;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import foundry.imgui.api.ImGuiTextureProvider;
 import imgui.ImDrawData;
 import org.jetbrains.annotations.ApiStatus;
@@ -12,7 +13,7 @@ public interface ImGuiRenderer extends NativeResource {
 
     void newFrame();
 
-    void renderDrawData(ImDrawData drawData);
+    void renderDrawData(ImDrawData drawData, RenderTarget renderTarget);
 
     void recreateFontsTexture();
 

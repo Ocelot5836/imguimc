@@ -2,6 +2,7 @@ package foundry.imgui.impl.renderer.v0;
 
 //? if <1.21.6 {
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import foundry.imgui.api.ImGuiTextureProvider;
 import foundry.imgui.impl.renderer.ImGuiRenderer;
 import imgui.*;
@@ -10,6 +11,7 @@ import imgui.flag.ImGuiBackendFlags;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.flag.ImGuiViewportFlags;
 import imgui.type.ImInt;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.MemoryStack;
@@ -223,14 +225,8 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
         glVertexAttribPointer(this.data.attribLocationVtxColor, 4, GL_UNSIGNED_BYTE, true, ImDrawData.sizeOfImDrawVert(), 16);
     }
 
-    /**
-     * OpenGL3 Render function.
-     * Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly.
-     * This is in order to be able to run within an OpenGL engine that doesn't do so.
-     *
-     * @param drawData draw data to render
-     */
-    public void renderDrawData(final ImDrawData drawData) {
+    @Override
+    public void renderDrawData(final ImDrawData drawData, final RenderTarget renderTarget) {
         // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
         final int fbWidth = (int) (drawData.getDisplaySizeX() * drawData.getFramebufferScaleX());
         final int fbHeight = (int) (drawData.getDisplaySizeY() * drawData.getFramebufferScaleY());
@@ -546,7 +542,7 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
                 glClearColor(0, 0, 0, 0);
                 glClear(GL_COLOR_BUFFER_BIT);
             }
-            ImGuiRendererGL33.this.renderDrawData(vp.getDrawData());
+            ImGuiRendererGL33.this.renderDrawData(vp.getDrawData(), Minecraft.getInstance().getMainRenderTarget());
         }
     }
 
