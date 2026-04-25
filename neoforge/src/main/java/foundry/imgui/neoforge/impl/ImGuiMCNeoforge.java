@@ -13,7 +13,7 @@ public class ImGuiMCNeoforge {
         ImGuiMCImpl.init();
 
         //? if < 1.21.4 {
-        /*bus.<net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent>addListener(event -> {
+        bus.<net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent>addListener(event -> {
             ImGuiMCImpl.initHandler();
             if (ImGuiMCImpl.handler == null) {
                 return;
@@ -21,8 +21,8 @@ public class ImGuiMCNeoforge {
 
             event.registerReloadListener(ImGuiMCImpl.handler.getFontManager());
         });
-        *///?} else if >= 1.21.11 {
-        final net.minecraft.resources.Identifier id = net.minecraft.resources.Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
+        //?} else if >= 1.21.11 {
+        /*final net.minecraft.resources.ResourceLocation id = net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
         bus.<net.neoforged.neoforge.client.event.AddClientReloadListenersEvent>addListener(event -> {
             ImGuiMCImpl.initHandler();
             if (ImGuiMCImpl.handler == null) {
@@ -31,6 +31,6 @@ public class ImGuiMCNeoforge {
 
             event.addListener(id, ImGuiMCImpl.handler.getFontManager());
         });
-        //?}
+        *///?}
     }
 }

@@ -2,7 +2,7 @@ package foundry.imgui.impl.font.v0;
 
 //? if <1.21.6 {
 
-/*import com.google.gson.JsonObject;
+import com.google.gson.JsonObject;
 import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.font.ImGuiFontManager;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
@@ -27,4 +27,4 @@ public class ImGuiFontSizeSectionSerializer implements MetadataSectionSerializer
         return GsonHelper.getAsFloat(json, "size", ImGuiFontManager.DEFAULT_FONT_SIZE);
     }
 }
-*///?}
+//?}

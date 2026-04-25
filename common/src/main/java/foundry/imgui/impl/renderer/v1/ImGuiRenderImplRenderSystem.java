@@ -2,7 +2,7 @@ package foundry.imgui.impl.renderer.v1;
 
 //? if >=1.21.11 {
 
-import com.mojang.blaze3d.buffers.GpuBuffer;
+/*import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.CompiledRenderPipeline;
@@ -32,7 +32,7 @@ import imgui.type.ImInt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MappableRingBuffer;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.MemoryUtil;
 
@@ -95,15 +95,15 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
                 Out_Color = Frag_Color * texture(Texture, Frag_UV.st);
             }
             """;
-    private static final Map<Identifier, String> SOURCES_MAP = Map.of(
-            Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "shader_vertex"), VERTEX_SHADER,
-            Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "shader_fragment"), FRAGMENT_SHADER
+    private static final Map<ResourceLocation, String> SOURCES_MAP = Map.of(
+            ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "shader_vertex"), VERTEX_SHADER,
+            ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "shader_fragment"), FRAGMENT_SHADER
     );
 
     private static final RenderPipeline PIPELINE = RenderPipeline.builder()
-            .withLocation(Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "pipeline/imgui"))
-            .withVertexShader(Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "shader_vertex"))
-            .withFragmentShader(Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "shader_fragment"))
+            .withLocation(ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "pipeline/imgui"))
+            .withVertexShader(ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "shader_vertex"))
+            .withFragmentShader(ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "shader_fragment"))
             .withSampler("Texture")
             .withUniform("Projection", UniformType.UNIFORM_BUFFER)
             .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
@@ -113,7 +113,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
             .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.TRIANGLES)
             .build();
 
-    private static String getShaderSource(final Identifier name, final ShaderType shaderType) {
+    private static String getShaderSource(final ResourceLocation name, final ShaderType shaderType) {
         return SOURCES_MAP.get(name);
     }
 
@@ -122,10 +122,10 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         return this.data.textures.size() + 1;
     }
 
-    /**
+    /^*
      * Data class to store implementation specific fields.
      * Same as {@code ImGui_ImplOpenGL3_Data}.
-     */
+     ^/
     protected static class Data {
         protected GpuTextureView fontTextureView;
         protected GpuTexture fontTexture;
@@ -137,11 +137,11 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         protected List<GpuTextureView> textures = new ArrayList<>();
     }
 
-    /**
+    /^*
      * Internal class to store containers for frequently used arrays.
      * This class helps minimize the number of object allocations on the JVM side,
      * thereby improving performance and reducing garbage collection overhead.
-     */
+     ^/
     private static final class Properties {
         private final ImVec4 clipRect = new ImVec4();
     }
@@ -497,4 +497,4 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         ImGui.destroyPlatformWindows();
     }
 }
-//?}
+*///?}
