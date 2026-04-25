@@ -73,7 +73,10 @@ jar {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = base.archivesName.get()
+            groupId = "${property("mod.group")}.${property("mod.id")}"
+            artifactId = "${property("mod.id")}-${project.parent.name.split("-")[0]}-${sc.current.version}"
+            version = rootProject.property("mod.version")
+
             from components.java
         }
     }
