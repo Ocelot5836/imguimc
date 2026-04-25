@@ -11,8 +11,8 @@ import org.jetbrains.annotations.ApiStatus;
 public class ImGuiMCPlatformImpl implements ImGuiMCPlatform {
 
     @Override
-    public void registerImGuiFonts(final ImFontAtlas atlas, final ImFont defaultFont) {
-        RegisterImGuiFontsEventFabric.EVENT.invoker().registerImGuiFonts(atlas, defaultFont);
+    public void registerImGuiFonts(final ImFontAtlas atlas, final ImFont defaultFont, final float fontScale) {
+        RegisterImGuiFontsEventFabric.EVENT.invoker().registerImGuiFonts(atlas, defaultFont, fontScale);
     }
 
     @Override

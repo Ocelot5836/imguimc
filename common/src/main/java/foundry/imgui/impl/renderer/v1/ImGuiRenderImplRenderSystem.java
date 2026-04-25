@@ -356,7 +356,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
                     }
 
                     // Apply scissor/clipping rectangle (Y is inverted in OpenGL)
-//                    renderPass.enableScissor((int) clipMinX, (int) (fbHeight - clipMaxY), (int) (clipMaxX - clipMinX), (int) (clipMaxY - clipMinY));
+                    renderPass.enableScissor((int) clipMinX, (int) (fbHeight - clipMaxY), (int) (clipMaxX - clipMinX), (int) (clipMaxY - clipMinY));
 
                     // Bind texture, Draw
                     final long textureId = drawData.getCmdListCmdBufferTextureId(n, cmdIdx);
@@ -421,6 +421,8 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         final ImInt width = new ImInt();
         final ImInt height = new ImInt();
         final ByteBuffer pixels = fontAtlas.getTexDataAsRGBA32(width, height);
+
+        // TODO use GetTexDataAsAlpha8 instead
 
         final GpuDevice device = RenderSystem.getDevice();
         this.data.fontTexture = device.createTexture(

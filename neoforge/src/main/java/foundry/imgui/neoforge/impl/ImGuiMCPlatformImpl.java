@@ -12,8 +12,8 @@ import org.jetbrains.annotations.ApiStatus;
 public class ImGuiMCPlatformImpl implements ImGuiMCPlatform {
 
     @Override
-    public void registerImGuiFonts(final ImFontAtlas atlas, final ImFont defaultFont) {
-        NeoForge.EVENT_BUS.post(new RegisterImGuiFontsEventNeoforge(atlas, defaultFont));
+    public void registerImGuiFonts(final ImFontAtlas atlas, final ImFont defaultFont, final float fontScale) {
+        NeoForge.EVENT_BUS.post(new RegisterImGuiFontsEventNeoforge(atlas, defaultFont, fontScale));
     }
 
     @Override

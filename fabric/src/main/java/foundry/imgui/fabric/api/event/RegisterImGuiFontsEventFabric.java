@@ -13,10 +13,10 @@ import net.fabricmc.fabric.api.event.EventFactory;
  */
 public interface RegisterImGuiFontsEventFabric extends RegisterImGuiFontsEvent {
 
-    Event<RegisterImGuiFontsEvent> EVENT = EventFactory.createArrayBacked(RegisterImGuiFontsEvent.class, (atlas, defaultFont) -> {
-    }, events -> (atlas, defaultFont) -> {
+    Event<RegisterImGuiFontsEvent> EVENT = EventFactory.createArrayBacked(RegisterImGuiFontsEvent.class, (atlas, defaultFont, fontScale) -> {
+    }, events -> (atlas, defaultFont, fontScale) -> {
         for (RegisterImGuiFontsEvent event : events) {
-            event.registerImGuiFonts(atlas, defaultFont);
+            event.registerImGuiFonts(atlas, defaultFont, fontScale);
         }
     });
 }

@@ -12,8 +12,10 @@ import imgui.flag.ImGuiViewportFlags;
 import imgui.type.ImInt;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import org.jetbrains.annotations.ApiStatus;
+import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL33C.*;
 import static org.lwjgl.opengl.GL45C.GL_CLIP_ORIGIN;
@@ -183,14 +185,14 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
         // Our visible imgui space lies from draw_data->DisplayPos (top left) to draw_data->DisplayPos+data_data->DisplaySize (bottom right).
         // DisplayPos is (0,0) for single viewport apps.
         glViewport(0, 0, fbWidth, fbHeight);
-        float L = drawData.getDisplayPosX();
-        float R = drawData.getDisplayPosX() + drawData.getDisplaySizeX();
+        final float L = drawData.getDisplayPosX();
+        final float R = drawData.getDisplayPosX() + drawData.getDisplaySizeX();
         float T = drawData.getDisplayPosY();
         float B = drawData.getDisplayPosY() + drawData.getDisplaySizeY();
 
         // Swap top and bottom if origin is upper left
         if (this.data.hasClipOrigin && !clipOriginLowerLeft) {
-            float tmp = T;
+            final float tmp = T;
             T = B;
             B = tmp;
         }
@@ -375,8 +377,8 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
     }
 
     @Override
-    public long getImGuiId(ImGuiTextureProvider texture) {
-        if (!(texture instanceof AbstractTexture abstractTexture)) {
+    public long getImGuiId(final ImGuiTextureProvider texture) {
+        if (!(texture instanceof final AbstractTexture abstractTexture)) {
             throw new IllegalArgumentException("Invalid texture provided");
         }
         return abstractTexture.getId();
@@ -385,29 +387,31 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
     public void createFontsTexture() {
         final ImFontAtlas fontAtlas = ImGui.getIO().getFonts();
 
-        // Build texture atlas
-        // Load as RGBA 32-bit (75% of the memory is wasted, but default font is so small) because it is more likely to be compatible with user's existing shaders.
-        // If your ImTextureId represent a higher-level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.
         final ImInt width = new ImInt();
         final ImInt height = new ImInt();
-        final ByteBuffer pixels = fontAtlas.getTexDataAsRGBA32(width, height);
+        final ByteBuffer pixels = fontAtlas.getTexDataAsAlpha8(width, height);
 
-        final int[] lastTexture = new int[1];
-        glGetIntegerv(GL_TEXTURE_BINDING_2D, lastTexture);
-        this.data.fontTexture = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, this.data.fontTexture);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 4); // Not on WebGL/ES
-        glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0); // Not on WebGL/ES
-        glPixelStorei(GL_UNPACK_SKIP_ROWS, 0); // Not on WebGL/ES
-        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0); // Not on WebGL/ES
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(), height.get(), 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+        try (final MemoryStack stack = MemoryStack.stackPush()) {
+            final IntBuffer lastTexture = stack.mallocInt(1);
+            glGetIntegerv(GL_TEXTURE_BINDING_2D, lastTexture);
+            this.data.fontTexture = glGenTextures();
+            glBindTexture(GL_TEXTURE_2D, this.data.fontTexture);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        // Store our identifier
-        fontAtlas.setTexID(this.data.fontTexture);
+            glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, stack.ints(GL_ONE, GL_ONE, GL_ONE, GL_RED));
+            glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // Not on WebGL/ES
+            glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0); // Not on WebGL/ES
+            glPixelStorei(GL_UNPACK_SKIP_ROWS, 0); // Not on WebGL/ES
+            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0); // Not on WebGL/ES
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width.get(), height.get(), 0, GL_RED, GL_UNSIGNED_BYTE, pixels);
 
-        glBindTexture(GL_TEXTURE_2D, lastTexture[0]);
+            // Store our identifier
+            fontAtlas.setTexID(this.data.fontTexture);
+            fontAtlas.clearTexData();
+
+            glBindTexture(GL_TEXTURE_2D, lastTexture.get(0));
+        }
     }
 
     public void destroyFontsTexture() {
@@ -435,8 +439,8 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
     }
 
     private boolean checkProgram(final int handle) {
-        int status = glGetProgrami(handle, GL_LINK_STATUS);
-        int logLength = glGetProgrami(handle, GL_INFO_LOG_LENGTH);
+        final int status = glGetProgrami(handle, GL_LINK_STATUS);
+        final int logLength = glGetProgrami(handle, GL_INFO_LOG_LENGTH);
         if (status != GL_TRUE) {
             System.err.printf("%s: failed to link: %s\n", this, "shader program");
         }

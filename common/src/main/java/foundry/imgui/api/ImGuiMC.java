@@ -15,6 +15,10 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface ImGuiMC {
 
+    Identifier FONT_JETBRAINS_MONO = Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "jetbrains_mono");
+    Identifier FONT_REMIXICON = Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "remixicon");
+    Identifier FONT_DEFAULT = FONT_JETBRAINS_MONO;
+
     String MOD_ID = "imguimc";
 
     /**

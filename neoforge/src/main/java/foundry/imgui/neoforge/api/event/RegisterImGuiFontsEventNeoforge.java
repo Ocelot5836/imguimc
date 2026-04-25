@@ -16,11 +16,13 @@ public final class RegisterImGuiFontsEventNeoforge extends Event {
 
     private final ImFontAtlas atlas;
     private final ImFont defaultFont;
+    private final float fontScale;
 
     @ApiStatus.Internal
-    public RegisterImGuiFontsEventNeoforge(final ImFontAtlas atlas, final ImFont defaultFont) {
+    public RegisterImGuiFontsEventNeoforge(final ImFontAtlas atlas, final ImFont defaultFont, final float fontScale) {
         this.atlas = atlas;
         this.defaultFont = defaultFont;
+        this.fontScale = fontScale;
     }
 
     public ImFontAtlas getAtlas() {
@@ -29,5 +31,9 @@ public final class RegisterImGuiFontsEventNeoforge extends Event {
 
     public ImFont getDefaultFont() {
         return this.defaultFont;
+    }
+
+    public float getFontScale() {
+        return this.fontScale;
     }
 }

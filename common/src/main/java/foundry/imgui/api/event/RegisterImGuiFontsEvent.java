@@ -12,5 +12,5 @@ import imgui.ImFontAtlas;
  */
 public interface RegisterImGuiFontsEvent {
 
-    void registerImGuiFonts(ImFontAtlas atlas, ImFont defaultFont);
+    void registerImGuiFonts(ImFontAtlas atlas, ImFont defaultFont, float fontScale);
 }

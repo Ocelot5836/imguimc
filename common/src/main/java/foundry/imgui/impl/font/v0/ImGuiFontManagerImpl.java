@@ -2,7 +2,8 @@ package foundry.imgui.impl.font.v0;
 
 //? if <1.21.6 {
 
-/*import foundry.imgui.impl.ImGuiMCImpl;
+/*import foundry.imgui.api.ImGuiMC;
+import foundry.imgui.impl.ImGuiMCImpl;
 import foundry.imgui.impl.font.ImGuiFontManager;
 import foundry.imgui.impl.platform.ImGuiMCPlatform;
 import imgui.ImFont;
@@ -129,17 +130,17 @@ public class ImGuiFontManagerImpl implements ImGuiFontManager {
 
     @Override
     public void rebuildFonts(final ImFontAtlas atlas) {
+        float scale;
         try (final MemoryStack stack = MemoryStack.stackPush()) {
             final Map<Identifier, FontPack> fonts = new HashMap<>();
 
             atlas.clear();
-            this.defaultFont = atlas.addFontDefault();
 
             final FloatBuffer xscale = stack.mallocFloat(1);
             final FloatBuffer yscale = stack.mallocFloat(1);
             glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), xscale, yscale);
 
-            float scale = Math.max(xscale.get(0), yscale.get(0));
+            scale = Math.max(xscale.get(0), yscale.get(0));
             // Hack because macs seem to report massive values for some reason
             if (Minecraft.ON_OSX) {
                 scale /= 2;
@@ -152,10 +153,16 @@ public class ImGuiFontManagerImpl implements ImGuiFontManager {
             }
 
             this.fonts = Map.copyOf(fonts);
-//                ImGui.getIO().setFontDefault(this.getFont(EditorManager.DEFAULT_FONT, false, false));
+            this.defaultFont = this.getFont(ImGuiMC.FONT_DEFAULT, false, false);
+            if (this.defaultFont == null) {
+                ImGuiMCImpl.LOGGER.error("Failed to load default font: {}, using ImGui default", ImGuiMC.FONT_DEFAULT);
+                this.defaultFont = atlas.addFontDefault();
+            }
+
+            ImGui.getIO().setFontDefault(this.defaultFont);
         }
 
-        ImGuiMCPlatform.INSTANCE.registerImGuiFonts(atlas, this.defaultFont);
+        ImGuiMCPlatform.INSTANCE.registerImGuiFonts(atlas, this.defaultFont, scale);
     }
 
     @Override
