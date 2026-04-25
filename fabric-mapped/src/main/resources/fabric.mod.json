@@ -24,7 +24,7 @@
     "${id}.fabric.mixins.json"
   ],
   "depends": {
-    "fabric_api_base": "*",
+    "fabric-api-base": "*",
     "fabricloader": ">=0.17",
     "minecraft": "${minecraft}",
     "java": ">=${java}"
