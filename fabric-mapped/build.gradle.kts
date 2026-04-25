@@ -35,7 +35,10 @@ dependencies {
      * @see <a href="https://github.com/FabricMC/fabric">List of Fabric API modules</a>
      */
     fun fapi(vararg modules: String) {
-        for (it in modules) modImplementation(fabricApi.module(it, property("deps.fabric_api") as String))
+        for (it in modules) {
+            modImplementation(fabricApi.module(it, property("deps.fabric_api") as String))
+            include(fabricApi.module(it, property("deps.fabric_api") as String))
+        }
     }
 
     minecraft("com.mojang:minecraft:${sc.current.version}")
