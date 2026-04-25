@@ -31,8 +31,8 @@ public abstract class ImGuiMCMixinPlugin implements IMixinConfigPlugin {
     @Override
     public List<String> getMixins() {
         //? if >=1.21.6 {
-        /*return List.of("renderer.v1.AbstractTextureMixin", "renderer.v1.GpuTextureViewMixin");
-         *///? } else
-        return List.of();
+        return List.of("renderer.v1.AbstractTextureMixin", "renderer.v1.GpuTextureViewMixin");
+         //? } else
+        //return List.of();
     }
 }

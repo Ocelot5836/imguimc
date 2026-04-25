@@ -1,5 +1,6 @@
 package foundry.imgui.impl;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.imgui.impl.font.ImGuiFontManager;
 import foundry.imgui.impl.platform.ImGuiMCPlatform;
@@ -9,6 +10,7 @@ import imgui.extension.implot.ImPlot;
 import imgui.extension.implot.ImPlotContext;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.internal.ImGuiContext;
+import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -86,6 +88,12 @@ public class ImGuiHandler {
 
     public void beginFrame() {
         try {
+            //? if <= 26.1 {
+            /*final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
+            *///? } else {
+            final RenderTarget renderTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget();
+            //? }
+
             this.start();
 
             if (this.active.get()) {
@@ -98,7 +106,7 @@ public class ImGuiHandler {
                 this.rendererImpl.recreateFontsTexture();
             }
             this.rendererImpl.newFrame();
-            this.windowImpl.newFrame();
+            this.windowImpl.newFrame(renderTarget);
             ImGui.newFrame();
 
             ImGuiMCPlatform.INSTANCE.drawImGuiPre();

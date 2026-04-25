@@ -2,7 +2,7 @@ package foundry.imgui.impl.font.v0;
 
 //? if <1.21.4 {
 
-import com.google.gson.JsonArray;
+/*import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -136,4 +136,4 @@ public class ImGuiFontRangesSectionSerializer implements MetadataSectionSerializ
     public record FontMetadata(short[] ranges) {
     }
 }
-//?}
+*///?}

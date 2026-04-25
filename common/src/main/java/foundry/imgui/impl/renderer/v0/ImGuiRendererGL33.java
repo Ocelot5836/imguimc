@@ -2,7 +2,7 @@ package foundry.imgui.impl.renderer.v0;
 
 //? if <1.21.6 {
 
-import foundry.imgui.api.ImGuiTextureProvider;
+/*import foundry.imgui.api.ImGuiTextureProvider;
 import foundry.imgui.impl.renderer.ImGuiRenderer;
 import imgui.*;
 import imgui.callback.ImPlatformFuncViewport;
@@ -20,21 +20,21 @@ import java.nio.IntBuffer;
 import static org.lwjgl.opengl.GL33C.*;
 import static org.lwjgl.opengl.GL45C.GL_CLIP_ORIGIN;
 
-/**
+/^*
  * This class is a straightforward port of the
  * <a href="https://raw.githubusercontent.com/ocornut/imgui/1ee252772ae9c0a971d06257bb5c89f628fa696a/backends/imgui_impl_opengl3.cpp">imgui_impl_opengl3.cpp</a>.
  * <p>
  * It does support a backup and restoring of the GL state in the same way the original Dear ImGui code does.
  * Some of the very specific OpenGL variables may be ignored here,
  * yet you can copy-paste this class in your codebase and modify the rendering routine in the way you'd like.
- */
+ ^/
 @ApiStatus.Internal
 public class ImGuiRendererGL33 implements ImGuiRenderer {
 
-    /**
+    /^*
      * Data class to store implementation specific fields.
      * Same as {@code ImGui_ImplOpenGL3_Data}.
-     */
+     ^/
     protected static class Data {
         protected int glVersion;
         protected boolean glProfileIsCompat;
@@ -54,11 +54,11 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
         protected boolean hasClipOrigin;
     }
 
-    /**
+    /^*
      * Internal class to store containers for frequently used arrays.
      * This class helps minimize the number of object allocations on the JVM side,
      * thereby improving performance and reducing garbage collection overhead.
-     */
+     ^/
     private static final class Properties {
         private final ImVec4 clipRect = new ImVec4();
         private final float[] orthoProjMatrix = new float[4 * 4];
@@ -223,13 +223,13 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
         glVertexAttribPointer(this.data.attribLocationVtxColor, 4, GL_UNSIGNED_BYTE, true, ImDrawData.sizeOfImDrawVert(), 16);
     }
 
-    /**
+    /^*
      * OpenGL3 Render function.
      * Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly.
      * This is in order to be able to run within an OpenGL engine that doesn't do so.
      *
      * @param drawData draw data to render
-     */
+     ^/
     public void renderDrawData(final ImDrawData drawData) {
         // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
         final int fbWidth = (int) (drawData.getDisplaySizeX() * drawData.getFramebufferScaleX());
@@ -382,10 +382,10 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
             throw new IllegalArgumentException("Invalid texture provided");
         }
 //? if <1.21.5 {
-        return abstractTexture.getId();
-//? } elif <1.21.11 {
-        /*return ((com.mojang.blaze3d.opengl.GlTexture) abstractTexture.getTexture()).glId();
-*///? }
+        /^return abstractTexture.getId();
+^///? } elif <1.21.11 {
+        /^return ((com.mojang.blaze3d.opengl.GlTexture) abstractTexture.getTexture()).glId();
+^///? }
     }
 
     public void createFontsTexture() {
@@ -622,4 +622,4 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
                 """;
     }
 }
-//?}
+*///?}

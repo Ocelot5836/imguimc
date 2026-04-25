@@ -2,7 +2,7 @@ package foundry.imgui.mixin.renderer.v1;
 
 //? if >=1.21.6 {
 
-/*import com.mojang.blaze3d.textures.GpuTextureView;
+import com.mojang.blaze3d.textures.GpuTextureView;
 import foundry.imgui.api.ImGuiTextureProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -24,4 +24,4 @@ public class GpuTextureViewMixin implements ImGuiTextureProvider {
     }
 }
 
-*///?}
+//?}

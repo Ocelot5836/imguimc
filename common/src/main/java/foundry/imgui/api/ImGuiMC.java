@@ -7,7 +7,7 @@ import foundry.imgui.impl.ImGuiMCImpl;
 import foundry.imgui.impl.font.ImGuiFontManager;
 import imgui.*;
 import imgui.internal.ImGuiContext;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -15,9 +15,9 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface ImGuiMC {
 
-    ResourceLocation FONT_JETBRAINS_MONO = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "jetbrains_mono");
-    ResourceLocation FONT_REMIXICON = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "remixicon");
-    ResourceLocation FONT_DEFAULT = FONT_JETBRAINS_MONO;
+    Identifier FONT_JETBRAINS_MONO = Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "jetbrains_mono");
+    Identifier FONT_REMIXICON = Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "remixicon");
+    Identifier FONT_DEFAULT = FONT_JETBRAINS_MONO;
 
     String MOD_ID = "imguimc";
 
@@ -60,7 +60,7 @@ public interface ImGuiMC {
      * @return The font to use
      * @see ImGuiFontManager
      */
-    static ImFont getFont(@Nullable final ResourceLocation name, final boolean bold, final boolean italic) {
+    static ImFont getFont(@Nullable final Identifier name, final boolean bold, final boolean italic) {
         if (ImGuiMCImpl.handler == null) {
             throw new IllegalStateException("ImGui is not loaded");
         }

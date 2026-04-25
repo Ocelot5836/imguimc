@@ -2,7 +2,7 @@ package foundry.imgui.impl.font.v1;
 
 //? if >=1.21.4 {
 
-/*import com.mojang.datafixers.util.Pair;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
@@ -157,4 +157,4 @@ public record ImGuiFontRangesMetadataSection(short[] ranges) {
     ).apply(instance, ImGuiFontRangesMetadataSection::new));
     public static final MetadataSectionType<ImGuiFontRangesMetadataSection> TYPE = new MetadataSectionType<>(ImGuiMC.MOD_ID + ":font_ranges", CODEC);
 }
-*///?}
+//?}

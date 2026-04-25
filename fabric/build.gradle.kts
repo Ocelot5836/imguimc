@@ -1,7 +1,7 @@
 import org.gradle.internal.extensions.stdlib.capitalized
 
 plugins {
-    id("net.fabricmc.fabric-loom-remap")
+    id("net.fabricmc.fabric-loom")
     // `maven-publish`
     // id("me.modmuss50.mod-publish-plugin")
     id("multiloader-loader")
@@ -9,7 +9,6 @@ plugins {
 
 loom {
     fabricModJsonPath = project(":fabric").file("src/main/resources/fabric.mod.json") // Useful for interface injection
-    accessWidenerPath = project(":fabric").file("src/main/resources/${project.property("mod.id")}.accesswidener")
 
     decompilerOptions.named("vineflower") {
         options.put("mark-corresponding-synthetics", "1") // Adds names to lambdas - useful for mixins
@@ -23,29 +22,19 @@ loom {
     }
 }
 
-repositories {
-    maven("https://maven.parchmentmc.org") {
-        name = "ParchmentMC"
-    }
-}
-
 dependencies {
     /**
      * Fetches only the required Fabric API modules to not waste time downloading all of them for each version.
      * @see <a href="https://github.com/FabricMC/fabric">List of Fabric API modules</a>
      */
     fun fapi(vararg modules: String) {
-        for (it in modules) modImplementation(fabricApi.module(it, property("deps.fabric_api") as String))
+        for (it in modules) implementation(fabricApi.module(it, property("deps.fabric_api") as String))
     }
 
     minecraft("com.mojang:minecraft:${sc.current.version}")
-    mappings(loom.layered {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${property("parchment.minecraft")}:${property("parchment.version")}@zip")
-    })
-    modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
+    implementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
 
-    fapi("fabric-api-base", "fabric-resource-loader-v0")
+    fapi("fabric-api-base", "fabric-resource-loader-v1")
 
     api("io.github.spair:imgui-java-binding:${project.property("deps.imgui")}")
     include("io.github.spair:imgui-java-binding:${project.property("deps.imgui")}")
@@ -62,7 +51,7 @@ tasks {
     // Builds the version into a shared folder in `build/libs/${mod version}/`
     register<Copy>("buildAndCollect") {
         group = "build"
-        from(remapJar.map { it.archiveFile }, remapSourcesJar.map { it.archiveFile })
+        from(jar.map { it.archiveFile }, sourcesJar.map { it.archiveFile })
         into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
         dependsOn("build")
     }

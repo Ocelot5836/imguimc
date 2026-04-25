@@ -1,5 +1,6 @@
 package foundry.imgui.impl;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import imgui.*;
 import imgui.callback.*;
 import imgui.flag.*;
@@ -827,12 +828,21 @@ public class ImGuiWindowImpl {
         }
     }
 
-    public void newFrame() {
+    public void newFrame(final RenderTarget renderTarget) {
         final ImGuiIO io = ImGui.getIO();
 
         // Setup display size (every frame to accommodate for window resizing)
         glfwGetWindowSize(this.data.window, this.props.windowW, this.props.windowH);
-        glfwGetFramebufferSize(this.data.window, this.props.displayW, this.props.displayH);
+
+        //? if >=1.21.6 {
+        final com.mojang.blaze3d.textures.GpuTextureView view = renderTarget.getColorTextureView();
+        this.props.displayW[0] = view.getWidth(0);
+        this.props.displayH[0] = view.getHeight(0);
+        //? } else {
+        /*this.props.displayW[0] = renderTarget.width;
+        this.props.displayH[0] = renderTarget.height;
+        *///? }
+
         io.setDisplaySize((float) this.props.windowW[0], (float) this.props.windowH[0]);
         if (this.props.windowW[0] > 0 && this.props.windowH[0] > 0) {
             final float scaleX = (float) this.props.displayW[0] / this.props.windowW[0];

@@ -10,7 +10,7 @@ plugins {
     id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.22" apply false
 }
 
-stonecutter active "1.21.1"
+stonecutter active "26.2-snapshot-4"
 
 /*
 // Make newer versions be published last
@@ -22,7 +22,7 @@ stonecutter tasks {
 
 // See https://stonecutter.kikugie.dev/wiki/config/params
 stonecutter parameters {
-    var platform = node.project.parent!!.name
+    var platform = node.project.parent!!.name.split("-")[0]
 
     swaps["mod_version"] = "\"${property("mod.version")}\";"
     swaps["minecraft"] = "\"${node.metadata.version}\";"

@@ -1,26 +1,16 @@
 plugins {
     id("multiloader-common")
     id("net.neoforged.moddev")
-
-    kotlin("jvm")
-    id("com.google.devtools.ksp")
-    id("dev.kikugie.fletching-table")
-}
-
-fletchingTable {
-    accessConverter.register(sourceSets.main) {
-        // Access widener file relative to `src/main/resources`
-        // Converted to `META-INF/accesstransformer.cfg` by default
-        add(project(":fabric").file("src/main/resources/${project.property("mod.id")}.accesswidener").absolutePath)
-    }
 }
 
 neoForge {
     neoFormVersion = property("deps.neoform") as String
 
-    parchment {
-        minecraftVersion = property("parchment.minecraft") as String
-        mappingsVersion = property("parchment.version") as String
+    if (sc.current.parsed < "26.1") {
+        parchment {
+            minecraftVersion = property("parchment.minecraft") as String
+            mappingsVersion = property("parchment.version") as String
+        }
     }
 }
 
