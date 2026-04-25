@@ -2,6 +2,7 @@ package foundry.imgui.fabric.impl;
 
 import foundry.imgui.fabric.api.event.RegisterImGuiFontsEventFabric;
 import foundry.imgui.fabric.api.event.RenderImGuiEventsFabric;
+import foundry.imgui.fabric.api.event.ImGuiLoadEventFabric;
 import foundry.imgui.impl.platform.ImGuiMCPlatform;
 import imgui.ImFont;
 import imgui.ImFontAtlas;
@@ -23,5 +24,10 @@ public class ImGuiMCPlatformImpl implements ImGuiMCPlatform {
     @Override
     public void drawImGuiPost() {
         RenderImGuiEventsFabric.POST.invoker().drawImGuiPost();
+    }
+
+    @Override
+    public void afterImGuiLoad() {
+        ImGuiLoadEventFabric.EVENT.invoker().afterImGuiLoad();
     }
 }

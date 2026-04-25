@@ -15,7 +15,7 @@ configurations {
 dependencies {
     compileOnly(project(":common:${sc.current.version}")) {
         capabilities {
-            requireCapability "$group:${findProperty("mod.id")}"
+            requireCapability "${rootProject.property("mod.group")}:${rootProject.property("mod.id")}"
         }
     }
     commonJava project(path: ":common:${sc.current.version}", configuration: "commonJava")
@@ -34,7 +34,7 @@ processResources {
 
     var expandProps = [
             'version'        : version,
-            'group'          : project.group, //Else we target the task's group.
+            'group'          : findProperty("mod.group"), //Else we target the task's group.
             'minecraft'      : findProperty("mod.mc_dep"),
             'name'           : findProperty("mod.name"),
             'author'         : findProperty("mod.author"),

@@ -1,10 +1,12 @@
 package foundry.imgui.neoforge.impl;
 
 import foundry.imgui.impl.platform.ImGuiMCPlatform;
+import foundry.imgui.neoforge.api.event.ImGuiLoadEventNeoforge;
 import foundry.imgui.neoforge.api.event.RegisterImGuiFontsEventNeoforge;
 import foundry.imgui.neoforge.api.event.RenderImGuiEventsNeoforge;
 import imgui.ImFont;
 import imgui.ImFontAtlas;
+import net.neoforged.fml.ModLoader;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -24,5 +26,10 @@ public class ImGuiMCPlatformImpl implements ImGuiMCPlatform {
     @Override
     public void drawImGuiPost() {
         NeoForge.EVENT_BUS.post(new RenderImGuiEventsNeoforge.Pre());
+    }
+
+    @Override
+    public void afterImGuiLoad() {
+        ModLoader.postEvent(new ImGuiLoadEventNeoforge());
     }
 }

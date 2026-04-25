@@ -4,22 +4,20 @@ plugins {
 }
 
 version = "${rootProject.property("mod.version")}+mc${sc.current.version}"
+def platform = project.parent.name.split("-")[0]
 
 base {
-    archivesName = "${rootProject.property("mod.id")}-${project.parent.name.split("-")[0]}"
+    archivesName = "${rootProject.property("mod.id")}-$platform"
 }
 
-def java_version = {
-    if (sc.current.parsed >= "26.1") {
-        JavaVersion.VERSION_25
-    } else {
-        JavaVersion.VERSION_21
-    }
-}()
-
 java {
-    targetCompatibility = java_version
-    sourceCompatibility = java_version
+    toolchain {
+        if (sc.current.parsed >= "26.1") {
+            languageVersion = JavaLanguageVersion.of(25)
+        } else {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
     withSourcesJar()
 }
 
@@ -27,9 +25,9 @@ java {
 // Read more about capabilities here: https://docs.gradle.org/current/userguide/component_capabilities.html#sec:declaring-additional-capabilities-for-a-local-component
 ['apiElements', 'runtimeElements', 'sourcesElements'].each { variant ->
     configurations."$variant".outgoing {
-        capability("$group:${base.archivesName.get()}:$version")
-        capability("$group:${rootProject.property("mod.id")}-${project.parent.name}-${sc.current.version}:$version")
-        capability("$group:${rootProject.property("mod.id")}:$version")
+        capability("${rootProject.property("mod.group")}:${base.archivesName.get()}:${rootProject.property("mod.version")}")
+        capability("${rootProject.property("mod.group")}:${rootProject.property("mod.id")}-$platform-${sc.current.version}:${rootProject.property("mod.version")}")
+        capability("${rootProject.property("mod.group")}:${rootProject.property("mod.id")}:${rootProject.property("mod.version")}")
     }
     publishing.publications.configureEach {
         suppressPomMetadataWarningsFor(variant)
@@ -73,8 +71,8 @@ jar {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId = "${property("mod.group")}.${property("mod.id")}"
-            artifactId = "${property("mod.id")}-${project.parent.name.split("-")[0]}-${sc.current.version}"
+            groupId = rootProject.property("mod.group")
+            artifactId = "${rootProject.property("mod.id")}-$platform-${sc.current.version}"
             version = rootProject.property("mod.version")
 
             from components.java

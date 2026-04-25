@@ -1,6 +1,7 @@
 package foundry.imgui.impl;
 
 import foundry.imgui.api.ImGuiMC;
+import foundry.imgui.impl.platform.ImGuiMCPlatform;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ public final class ImGuiMCImpl {
 
         try {
             handler = new ImGuiHandler(window);
+            ImGuiMCPlatform.INSTANCE.afterImGuiLoad();
         } catch (final Throwable t) {
             LOGGER.error("Failed to load ImGui, disabling", t);
             handler = null;

@@ -8,11 +8,7 @@ plugins {
 neoForge {
     version = property("deps.neoforge") as String
 
-    interfaceInjectionData {
-        var path = project(":common").file("interfaces.json")
-        from(path)
-        publish(path)
-    }
+    interfaceInjectionData.from(project(":common").file("interfaces.json"))
 
     if (sc.current.parsed < "26.1") {
         parchment {
