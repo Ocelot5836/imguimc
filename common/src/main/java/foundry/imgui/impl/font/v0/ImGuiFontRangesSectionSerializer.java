@@ -12,10 +12,12 @@ import it.unimi.dsi.fastutil.shorts.ShortArrayList;
 import it.unimi.dsi.fastutil.shorts.ShortList;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.util.GsonHelper;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
+@ApiStatus.Internal
 public class ImGuiFontRangesSectionSerializer implements MetadataSectionSerializer<ImGuiFontRangesSectionSerializer.FontMetadata> {
 
     public static final ImGuiFontRangesSectionSerializer INSTANCE = new ImGuiFontRangesSectionSerializer();

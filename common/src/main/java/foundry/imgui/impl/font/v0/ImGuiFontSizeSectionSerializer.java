@@ -7,8 +7,10 @@ import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.font.ImGuiFontManager;
 import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
 import net.minecraft.util.GsonHelper;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+@ApiStatus.Internal
 public class ImGuiFontSizeSectionSerializer implements MetadataSectionSerializer<Float> {
 
     public static final ImGuiFontSizeSectionSerializer INSTANCE = new ImGuiFontSizeSectionSerializer();

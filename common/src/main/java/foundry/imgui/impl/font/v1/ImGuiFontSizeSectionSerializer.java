@@ -6,7 +6,9 @@ package foundry.imgui.impl.font.v1;
 import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.font.ImGuiFontManager;
 import net.minecraft.server.packs.metadata.MetadataSectionType;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 public record ImGuiFontSizeSectionSerializer(float size) {
 
     public static final Codec<ImGuiFontSizeSectionSerializer> CODEC = Codec.FLOAT.optionalFieldOf("size", ImGuiFontManager.DEFAULT_FONT_SIZE)

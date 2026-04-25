@@ -13,10 +13,12 @@ import foundry.imgui.impl.font.ImGuiFontManager;
 import it.unimi.dsi.fastutil.shorts.ShortArrayList;
 import it.unimi.dsi.fastutil.shorts.ShortList;
 import net.minecraft.server.packs.metadata.MetadataSectionType;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Locale;
 import java.util.stream.Stream;
 
+@ApiStatus.Internal
 public record ImGuiFontRangesMetadataSection(short[] ranges) {
 
     public static final Codec<ImGuiFontRangesMetadataSection> CODEC = RecordCodecBuilder.create(instance -> instance.group(
