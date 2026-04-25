@@ -381,7 +381,11 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
         if (!(texture instanceof final AbstractTexture abstractTexture)) {
             throw new IllegalArgumentException("Invalid texture provided");
         }
+//? if <1.21.5 {
         return abstractTexture.getId();
+//? } elif <1.21.11 {
+        /*return ((com.mojang.blaze3d.opengl.GlTexture) abstractTexture.getTexture()).glId();
+*///? }
     }
 
     public void createFontsTexture() {

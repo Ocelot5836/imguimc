@@ -1,6 +1,6 @@
 package foundry.imgui.impl.font.v0;
 
-//? if <1.21.6 {
+//? if <1.21.4 {
 
 import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.ImGuiMCImpl;
@@ -15,7 +15,6 @@ import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -66,8 +65,14 @@ public class ImGuiFontManagerImpl implements ImGuiFontManager {
         }
     }
 
+    @NotNull
     @Override
-    public @NotNull CompletableFuture<Void> reload(final PreparationBarrier preparationBarrier, @NotNull final ResourceManager resourceManager, @NotNull final ProfilerFiller preparationsProfiler, @NotNull final ProfilerFiller reloadProfiler, @NotNull final Executor backgroundExecutor, @NotNull final Executor gameExecutor) {
+    //? if <=1.21.1 {
+    public CompletableFuture<Void> reload(final PreparationBarrier preparationBarrier, @NotNull final ResourceManager resourceManager, @NotNull final net.minecraft.util.profiling.ProfilerFiller preparationsProfiler, @NotNull final net.minecraft.util.profiling.ProfilerFiller reloadProfiler, @NotNull final Executor backgroundExecutor, @NotNull final Executor gameExecutor)
+    //?} elif <= 1.21.11 {
+    /*public CompletableFuture<Void> reload(@NotNull final PreparationBarrier preparationBarrier, @NotNull final ResourceManager resourceManager, @NotNull final Executor backgroundExecutor, @NotNull final Executor gameExecutor)
+    *///?}
+            {
         return CompletableFuture.supplyAsync(() -> {
             final Map<ResourceLocation, FontData> fontData = new HashMap<>();
 

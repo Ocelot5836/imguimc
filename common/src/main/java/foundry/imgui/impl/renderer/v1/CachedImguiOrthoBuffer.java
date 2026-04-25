@@ -1,6 +1,6 @@
 package foundry.imgui.impl.renderer.v1;
 
-//? if >=1.21.11 {
+//? if >=1.21.6 {
 
 /*import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;

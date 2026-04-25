@@ -1,6 +1,6 @@
 package foundry.imgui.impl.font.v1;
 
-//? if >=1.21.11 {
+//? if >=1.21.4 {
 
 /*import com.mojang.serialization.Codec;
 import foundry.imgui.api.ImGuiMC;

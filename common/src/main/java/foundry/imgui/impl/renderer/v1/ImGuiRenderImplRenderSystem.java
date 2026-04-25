@@ -1,6 +1,6 @@
 package foundry.imgui.impl.renderer.v1;
 
-//? if >=1.21.11 {
+//? if >=1.21.6 {
 
 /*import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
@@ -36,7 +36,6 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.MemoryUtil;
 
-import java.nio.ByteBuffer;
 import java.util.*;
 
 @ApiStatus.Internal
@@ -347,13 +346,17 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
                         throw new IllegalStateException("Texture ID is 0");
                     }
 
-                    final GpuSampler sampler = RenderSystem.getSamplerCache().getSampler(
-                            AddressMode.CLAMP_TO_EDGE,
-                            AddressMode.CLAMP_TO_EDGE,
-                            FilterMode.LINEAR,
-                            FilterMode.LINEAR,
+//? if <=1.21.10 {
+                    renderPass.bindSampler("Texture", textureId == 1 ? this.data.fontTextureView : this.data.textures.get((int) (textureId - 2)));
+//?} else {
+                    /^final com.mojang.blaze3d.textures.GpuSampler sampler = RenderSystem.getSamplerCache().getSampler(
+                            com.mojang.blaze3d.textures.AddressMode.CLAMP_TO_EDGE,
+                            com.mojang.blaze3d.textures.AddressMode.CLAMP_TO_EDGE,
+                            com.mojang.blaze3d.textures.FilterMode.LINEAR,
+                            com.mojang.blaze3d.textures.FilterMode.LINEAR,
                             true);
                     renderPass.bindTexture("Texture", textureId == 1 ? this.data.fontTextureView : this.data.textures.get((int) (textureId - 2)), sampler);
+^///?}
                     renderPass.drawIndexed(vtxOffset, idxOffset, elemCount, 1);
                 }
             }
@@ -423,7 +426,11 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         // If your ImTextureId represent a higher-level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.
         final ImInt width = new ImInt();
         final ImInt height = new ImInt();
-        final ByteBuffer pixels = fontAtlas.getTexDataAsRGBA32(width, height);
+//? if >=1.21.9 {
+        /^final java.nio.ByteBuffer pixels = fontAtlas.getTexDataAsRGBA32(width, height);
+         ^///?} else {
+        final java.nio.IntBuffer pixels = fontAtlas.getTexDataAsRGBA32(width, height).asIntBuffer();
+//?}
 
         // TODO use GetTexDataAsAlpha8 instead
 

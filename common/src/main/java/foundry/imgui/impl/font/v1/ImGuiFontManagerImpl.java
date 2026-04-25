@@ -1,6 +1,6 @@
 package foundry.imgui.impl.font.v1;
 
-//? if >=1.21.11 {
+//? if >=1.21.4 {
 
 /*import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.ImGuiMCImpl;
@@ -13,9 +13,10 @@ import imgui.ImGui;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NonNull;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.NativeResource;
 
@@ -62,12 +63,18 @@ public class ImGuiFontManagerImpl implements ImGuiFontManager {
         }
     }
 
+    @NotNull
     @Override
-    public @NonNull CompletableFuture<Void> reload(final @NonNull SharedState sharedState, final @NonNull Executor executor, final @NonNull PreparationBarrier preparationBarrier, final @NonNull Executor applyExecutor) {
+            //? if <=1.21.8 {
+    public CompletableFuture<Void> reload(final PreparationBarrier preparationBarrier, @NotNull final ResourceManager resourceManager, @NotNull final Executor executor, @NotNull final Executor applyExecutor) {
+        //?} elif <= 1.21.11 {
+    /^public CompletableFuture<Void> reload(final @NotNull SharedState sharedState, final @NotNull Executor executor, final @NotNull PreparationBarrier preparationBarrier, final @NotNull Executor applyExecutor) {
+        final ResourceManager resourceManager = sharedState.resourceManager();
+    ^///?}
         return CompletableFuture.supplyAsync(() -> {
             final Map<ResourceLocation, FontData> fontData = new HashMap<>();
 
-            for (final Map.Entry<ResourceLocation, Resource> entry : FONT_LISTER.listMatchingResources(sharedState.resourceManager()).entrySet()) {
+            for (final Map.Entry<ResourceLocation, Resource> entry : FONT_LISTER.listMatchingResources(resourceManager).entrySet()) {
                 final ResourceLocation id = FONT_LISTER.fileToId(entry.getKey());
                 final Resource resource = entry.getValue();
                 try (final InputStream stream = resource.open()) {
@@ -118,11 +125,6 @@ public class ImGuiFontManagerImpl implements ImGuiFontManager {
             this.fontBuilders = Map.copyOf(fontBuilders);
             ImGuiMCImpl.handler.updateFonts();
         }, applyExecutor);
-    }
-
-    @Override
-    public @NonNull String getName() {
-        return "font_manager";
     }
 
     @Override
