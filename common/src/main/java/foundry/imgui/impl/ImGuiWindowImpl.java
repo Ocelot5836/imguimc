@@ -835,13 +835,13 @@ public class ImGuiWindowImpl {
         glfwGetWindowSize(this.data.window, this.props.windowW, this.props.windowH);
 
         //? if >=1.21.6 {
-        final com.mojang.blaze3d.textures.GpuTextureView view = renderTarget.getColorTextureView();
+        /*final com.mojang.blaze3d.textures.GpuTextureView view = renderTarget.getColorTextureView();
         this.props.displayW[0] = view.getWidth(0);
         this.props.displayH[0] = view.getHeight(0);
-        //? } else {
-        /*this.props.displayW[0] = renderTarget.width;
+        *///? } else {
+        this.props.displayW[0] = renderTarget.width;
         this.props.displayH[0] = renderTarget.height;
-        *///? }
+        //? }
 
         io.setDisplaySize((float) this.props.windowW[0], (float) this.props.windowH[0]);
         if (this.props.windowW[0] > 0 && this.props.windowH[0] > 0) {

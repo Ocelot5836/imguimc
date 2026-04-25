@@ -2,7 +2,7 @@ package foundry.imgui.impl.renderer.v1;
 
 //? if >=1.21.6 {
 
-import com.mojang.blaze3d.buffers.GpuBuffer;
+/*import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -60,4 +60,4 @@ public class CachedImguiOrthoBuffer implements AutoCloseable {
         this.buffer.close();
     }
 }
-//?}
+*///?}

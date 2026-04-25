@@ -89,10 +89,10 @@ public class ImGuiHandler {
     public void beginFrame() {
         try {
             //? if <= 26.1 {
-            /*final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
-            *///? } else {
-            final RenderTarget renderTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget();
-            //? }
+            final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
+            //? } else {
+            /*final RenderTarget renderTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget();
+            *///? }
 
             this.start();
 

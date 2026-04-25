@@ -3,10 +3,10 @@ plugins {
     id 'maven-publish'
 }
 
-version = "${findProperty("mod.version")}+${sc.current.version}"
+version = "${rootProject.property("mod.version")}+${sc.current.version}"
 
 base {
-    archivesName = "${findProperty("mod.id")}-${project.parent.name}"
+    archivesName = "${rootProject.property("mod.id")}-${project.parent.name.split("-")[0]}"
 }
 
 def java_version = {
@@ -28,8 +28,8 @@ java {
 ['apiElements', 'runtimeElements', 'sourcesElements'].each { variant ->
     configurations."$variant".outgoing {
         capability("$group:${base.archivesName.get()}:$version")
-        capability("$group:${findProperty("mod.id")}-${project.parent.name}-${sc.current.version}:$version")
-        capability("$group:${findProperty("mod.id")}:$version")
+        capability("$group:${rootProject.property("mod.id")}-${project.parent.name}-${sc.current.version}:$version")
+        capability("$group:${rootProject.property("mod.id")}:$version")
     }
     publishing.publications.configureEach {
         suppressPomMetadataWarningsFor(variant)
@@ -48,23 +48,23 @@ tasks.register('listSourceSets') {
 
 sourcesJar {
     from(rootProject.file('LICENSE')) {
-        rename { "${it}_${findProperty("mod.id")}" }
+        rename { "${it}_${rootProject.property("mod.id")}" }
     }
 }
 
 jar {
     from(rootProject.file('LICENSE')) {
-        rename { "${it}_${findProperty("mod.id")}" }
+        rename { "${it}_${rootProject.property("mod.id")}" }
     }
 
     manifest {
         attributes([
-                'Specification-Title'   : findProperty("mod.name"),
-                'Specification-Vendor'  : findProperty("mod.author"),
+                'Specification-Title'   : rootProject.property("mod.name"),
+                'Specification-Vendor'  : rootProject.property("mod.author"),
                 'Specification-Version' : project.jar.archiveVersion,
                 'Implementation-Title'  : project.name,
                 'Implementation-Version': project.jar.archiveVersion,
-                'Implementation-Vendor' : findProperty("mod.author"),
+                'Implementation-Vendor' : rootProject.property("mod.author"),
                 'Built-On-Minecraft'    : sc.current.version
         ])
     }

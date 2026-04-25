@@ -27,6 +27,7 @@ tasks.named('compileJava', JavaCompile) {
 }
 
 processResources {
+    dependsOn(project(":common:${sc.current.version}").tasks.getByName("stonecutterGenerate"))
     dependsOn(configurations.commonResources)
     from(configurations.commonResources)
 
@@ -52,6 +53,7 @@ processResources {
 }
 
 tasks.named('sourcesJar', Jar) {
+    dependsOn(project(":common:${sc.current.version}").tasks.getByName("stonecutterGenerate"))
     dependsOn(configurations.commonJava)
     from(configurations.commonJava)
     dependsOn(configurations.commonResources)
