@@ -39,8 +39,6 @@ import org.lwjgl.system.MemoryUtil;
 import java.nio.ByteBuffer;
 import java.util.*;
 
-import static org.lwjgl.opengl.GL33C.*;
-
 @ApiStatus.Internal
 public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
 
@@ -207,27 +205,8 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         }
     }
 
-    @Override
-    public void free() {
-        final ImGuiIO io = ImGui.getIO();
-
-        this.shutdownPlatformInterface();
-        this.destroyDeviceObjects();
-
-        io.setBackendRendererName(null);
-        io.removeBackendFlags(ImGuiBackendFlags.RendererHasVtxOffset | ImGuiBackendFlags.RendererHasViewports);
-        this.data = null;
-    }
-
-    @Override
-    public void newFrame() {
-        if (this.data.fontTexture == null) {
-            this.createFontsTexture();
-        }
-    }
-
-    @Override
-    public void renderDrawData(final ImDrawData drawData) {
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    private void renderDrawData(final ImDrawData drawData, final OptionalInt clearColor) {
         // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
         final int fbWidth = (int) (drawData.getDisplaySizeX() * drawData.getFramebufferScaleX());
         final int fbHeight = (int) (drawData.getDisplaySizeY() * drawData.getFramebufferScaleY());
@@ -330,7 +309,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
 
         final GpuBufferSlice projectionMatrixBuffer = this.data.projectionMatrixBuffer.getBuffer(L, R, B, T);
         final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
-        try (final RenderPass renderPass = commandEncoder.createRenderPass(() -> "ImGui", renderTarget.getColorTextureView(), OptionalInt.empty())) {
+        try (final RenderPass renderPass = commandEncoder.createRenderPass(() -> "ImGui", renderTarget.getColorTextureView(), clearColor)) {
             renderPass.setPipeline(PIPELINE);
             renderPass.setUniform("Projection", projectionMatrixBuffer);
 
@@ -387,6 +366,30 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
             buffer.rotate();
         }
         this.clearTextures();
+    }
+
+    @Override
+    public void free() {
+        final ImGuiIO io = ImGui.getIO();
+
+        this.shutdownPlatformInterface();
+        this.destroyDeviceObjects();
+
+        io.setBackendRendererName(null);
+        io.removeBackendFlags(ImGuiBackendFlags.RendererHasVtxOffset | ImGuiBackendFlags.RendererHasViewports);
+        this.data = null;
+    }
+
+    @Override
+    public void newFrame() {
+        if (this.data.fontTexture == null) {
+            this.createFontsTexture();
+        }
+    }
+
+    @Override
+    public void renderDrawData(final ImDrawData drawData) {
+        this.renderDrawData(drawData, OptionalInt.empty());
     }
 
     @Override
@@ -482,11 +485,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
     private final class RendererRenderWindowFunction extends ImPlatformFuncViewport {
         @Override
         public void accept(final ImGuiViewport vp) {
-            if (!vp.hasFlags(ImGuiViewportFlags.NoRendererClear)) {
-                glClearColor(0, 0, 0, 0);
-                glClear(GL_COLOR_BUFFER_BIT);
-            }
-            ImGuiRenderImplRenderSystem.this.renderDrawData(vp.getDrawData());
+            ImGuiRenderImplRenderSystem.this.renderDrawData(vp.getDrawData(), !vp.hasFlags(ImGuiViewportFlags.NoRendererClear) ? OptionalInt.of(0) : OptionalInt.empty());
         }
     }
 

@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.imgui.impl.font.ImGuiFontManager;
 import foundry.imgui.impl.platform.ImGuiMCPlatform;
 import foundry.imgui.impl.renderer.ImGuiRenderer;
-import imgui.ImFontAtlas;
 import imgui.ImGui;
 import imgui.extension.implot.ImPlot;
 import imgui.extension.implot.ImPlotContext;
