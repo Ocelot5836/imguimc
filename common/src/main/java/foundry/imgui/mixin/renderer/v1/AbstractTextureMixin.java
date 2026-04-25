@@ -16,12 +16,12 @@ public abstract class AbstractTextureMixin implements ImGuiTextureProvider {
 
     @Override
     public long imguimc$id() {
-        return ((ImGuiTextureProvider) this.getTextureView()).imguimc$id();
+        return this.getTextureView().imguimc$id();
     }
 
     @Override
     public void imguimc$setId(final long id) {
-        ((ImGuiTextureProvider) this.getTextureView()).imguimc$setId(id);
+        this.getTextureView().imguimc$setId(id);
     }
 }
 

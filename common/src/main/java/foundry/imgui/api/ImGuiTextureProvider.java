@@ -14,7 +14,7 @@ public interface ImGuiTextureProvider {
     }
 
     @ApiStatus.Internal
-    default void imguimc$setId(long id) {
+    default void imguimc$setId(final long id) {
         throw new AssertionError();
     }
 }

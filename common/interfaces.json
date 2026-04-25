@@ -1,0 +1,8 @@
+{
+  "com/mojang/blaze3d/textures/GpuTextureView": [
+    "foundry/imgui/api/ImGuiTextureProvider"
+  ],
+  "net/minecraft/client/renderer/texture/AbstractTexture": [
+    "foundry/imgui/api/ImGuiTextureProvider"
+  ]
+}

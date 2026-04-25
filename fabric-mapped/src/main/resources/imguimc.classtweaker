@@ -1,0 +1,5 @@
+classTweaker v1 named
+#? if >=1.21.6 {
+#transitive-inject-interface com/mojang/blaze3d/textures/GpuTexture foundry/imgui/api/ImGuiTextureProvider
+#? }
+transitive-inject-interface net/minecraft/client/renderer/texture/AbstractTexture foundry/imgui/api/ImGuiTextureProvider
