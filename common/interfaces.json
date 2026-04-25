@@ -1,4 +1,7 @@
 {
+  "com/mojang/blaze3d/textures/GpuSampler": [
+    "foundry/imgui/api/ImGuiSampler"
+  ],
   "com/mojang/blaze3d/textures/GpuTextureView": [
     "foundry/imgui/api/ImGuiTextureProvider"
   ],

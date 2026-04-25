@@ -1,8 +1,6 @@
 package foundry.imgui.impl;
 
 import foundry.imgui.api.ImGuiMC;
-import foundry.imgui.api.ImGuiMCEvents;
-import imgui.ImGui;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
@@ -21,7 +19,7 @@ public final class ImGuiMCImpl {
     public static void initHandler() {
         //? if <=1.21.8 {
         final long window = Minecraft.getInstance().getWindow().getWindow();
-         //? } else {
+        //? } else {
         /*final long window = Minecraft.getInstance().getWindow().handle();
         *///? }
 

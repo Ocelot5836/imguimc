@@ -15,11 +15,13 @@ import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.GpuDevice;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.GpuSampler;
 import com.mojang.blaze3d.textures.GpuTexture;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
 import foundry.imgui.api.ImGuiMC;
+import foundry.imgui.api.ImGuiSampler;
 import foundry.imgui.api.ImGuiTextureProvider;
 import foundry.imgui.impl.ImGuiMCImpl;
 import foundry.imgui.impl.renderer.ImGuiRenderer;
@@ -34,6 +36,7 @@ import net.minecraft.client.renderer.MappableRingBuffer;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryUtil;
 
 import java.util.*;
@@ -51,11 +54,11 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
             if (element == null) {
                 //? if <=1.21.11 {
                 posElement = VertexFormatElement.register(i, 0, VertexFormatElement.Type.FLOAT, VertexFormatElement.Usage.POSITION, 2);
-                 //? } else if <=26.1 {
+                //? } else if <=26.1 {
                 /^posElement = VertexFormatElement.register(i, 0, VertexFormatElement.Type.FLOAT, false, 2);
-                ^///? } else {
+                 ^///? } else {
                 /^posElement = VertexFormatElement.register(i, 0, com.mojang.blaze3d.GpuFormat.RG32_FLOAT);
-                ^///? }
+                 ^///? }
                 break;
             }
         }
@@ -122,7 +125,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
             .withBlend(BlendFunction.TRANSLUCENT)
             //? } else {
             /^.withColorTargetState(new com.mojang.blaze3d.pipeline.ColorTargetState(Optional.of(BlendFunction.TRANSLUCENT), com.mojang.blaze3d.pipeline.ColorTargetState.WRITE_ALL))
-            ^///? }
+             ^///? }
             .withCull(false)
             .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.TRIANGLES)
             .build();
@@ -131,8 +134,9 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         return SOURCES_MAP.get(name);
     }
 
-    public long addTexture(final GpuTextureView view) {
+    public long addTexture(final GpuTextureView view, @Nullable final GpuSampler sampler) {
         this.data.textures.add(view);
+        this.data.samplers.add(sampler);
         return this.data.textures.size() + 1;
     }
 
@@ -149,6 +153,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         protected List<MappableRingBuffer> indexData = new ArrayList<>();
         protected int elementSize;
         protected List<GpuTextureView> textures = new ArrayList<>();
+        protected List<GpuSampler> samplers = new ArrayList<>();
     }
 
     /^*
@@ -168,13 +173,14 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
     }
 
     private void clearTextures() {
-        if (this.data.textures == null || this.data.textures.isEmpty()) {
+        this.data.samplers.clear();
+        if (this.data.textures.isEmpty()) {
             return;
         }
 
         final Iterator<GpuTextureView> iterator = this.data.textures.iterator();
         while (iterator.hasNext()) {
-            ((ImGuiTextureProvider) iterator.next()).imguimc$setId(0);
+            iterator.next().imguimc$setId(0);
             iterator.remove();
         }
     }
@@ -210,7 +216,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         io.setBackendRendererName("imgui-java_impl_" + device.getBackendName());
         //? } else {
         /^io.setBackendRendererName("imgui-java_impl_" + device.getDeviceInfo().backendName());
-        ^///? }
+         ^///? }
 
         // We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.
         io.addBackendFlags(ImGuiBackendFlags.RendererHasVtxOffset);
@@ -368,13 +374,14 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
 //? if <=1.21.10 {
                     renderPass.bindSampler("Texture", textureId == 1 ? this.data.fontTextureView : this.data.textures.get((int) (textureId - 2)));
                      //?} else {
-                    /^final com.mojang.blaze3d.textures.GpuSampler sampler = RenderSystem.getSamplerCache().getSampler(
+                    /^final com.mojang.blaze3d.textures.GpuSampler defaultSampler = RenderSystem.getSamplerCache().getSampler(
                             com.mojang.blaze3d.textures.AddressMode.CLAMP_TO_EDGE,
                             com.mojang.blaze3d.textures.AddressMode.CLAMP_TO_EDGE,
                             com.mojang.blaze3d.textures.FilterMode.LINEAR,
                             com.mojang.blaze3d.textures.FilterMode.LINEAR,
                             true);
-                    renderPass.bindTexture("Texture", textureId == 1 ? this.data.fontTextureView : this.data.textures.get((int) (textureId - 2)), sampler);
+                    final com.mojang.blaze3d.textures.GpuSampler sampler = textureId == 1 ? defaultSampler : this.data.samplers.get((int) (textureId - 2));
+                    renderPass.bindTexture("Texture", textureId == 1 ? this.data.fontTextureView : this.data.textures.get((int) (textureId - 2)), sampler != null ? sampler : defaultSampler);
 ^///?}
                     renderPass.drawIndexed(vtxOffset, idxOffset, elemCount, 1);
                 }
@@ -421,17 +428,17 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
     }
 
     @Override
-    public long getImGuiId(final ImGuiTextureProvider texture) {
+    public long getImGuiId(final ImGuiTextureProvider texture, @Nullable final ImGuiSampler sampler) {
         final GpuTextureView view = switch (texture) {
             case final AbstractTexture abstractTexture -> abstractTexture.getTextureView();
             case final GpuTextureView gpuTextureView -> gpuTextureView;
             default -> throw new IllegalArgumentException("Unexpected value: " + texture);
         };
-        long id = ((ImGuiTextureProvider) view).imguimc$id();
+        long id = view.imguimc$id();
 
         if (id == 0) {
-            id = ((ImGuiRenderImplRenderSystem) ImGuiMCImpl.handler.getRenderer()).addTexture(view);
-            ((ImGuiTextureProvider) view).imguimc$setId(id);
+            id = ((ImGuiRenderImplRenderSystem) ImGuiMCImpl.handler.getRenderer()).addTexture(view, (GpuSampler) sampler);
+            view.imguimc$setId(id);
         }
 
         return id;
@@ -461,7 +468,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
                 com.mojang.blaze3d.textures.TextureFormat.RGBA8,
                 //? } else {
                 /^com.mojang.blaze3d.GpuFormat.RGBA8_UNORM,
-                ^///? }
+                 ^///? }
                 width.get(),
                 height.get(),
                 1,
@@ -517,9 +524,9 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         public void accept(final ImGuiViewport vp) {
             //? if <= 26.1 {
             final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
-             //? } else {
+            //? } else {
             /^final RenderTarget renderTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget();
-            ^///? }
+             ^///? }
 
             ImGuiRenderImplRenderSystem.this.renderDrawData(vp.getDrawData(), renderTarget, !vp.hasFlags(ImGuiViewportFlags.NoRendererClear) ? OptionalInt.of(0) : OptionalInt.empty());
         }

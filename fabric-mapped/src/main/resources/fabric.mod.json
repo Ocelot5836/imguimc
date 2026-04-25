@@ -13,7 +13,6 @@
   },
   "license": "${license}",
   "environment": "client",
-  "accessWidener": "${id}.classtweaker",
   "entrypoints": {
     "client": [
       "foundry.imgui.fabric.impl.ImGuiMCFabric"

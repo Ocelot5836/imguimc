@@ -3,6 +3,7 @@ package foundry.imgui.impl.renderer.v0;
 //? if <1.21.6 {
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import foundry.imgui.api.ImGuiSampler;
 import foundry.imgui.api.ImGuiTextureProvider;
 import foundry.imgui.impl.renderer.ImGuiRenderer;
 import imgui.*;
@@ -14,6 +15,7 @@ import imgui.type.ImInt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
@@ -373,7 +375,7 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
     }
 
     @Override
-    public long getImGuiId(final ImGuiTextureProvider texture) {
+    public long getImGuiId(final ImGuiTextureProvider texture, @Nullable final ImGuiSampler sampler) {
         if (!(texture instanceof final AbstractTexture abstractTexture)) {
             throw new IllegalArgumentException("Invalid texture provided");
         }
