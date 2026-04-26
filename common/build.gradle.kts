@@ -6,12 +6,6 @@ plugins {
 neoForge {
     neoFormVersion = property("deps.neoform") as String
 
-    interfaceInjectionData {
-        var path = project(":common").file("interfaces.json")
-        from(path)
-        publish(path)
-    }
-
     if (sc.current.parsed < "26.1") {
         parchment {
             minecraftVersion = property("parchment.minecraft") as String

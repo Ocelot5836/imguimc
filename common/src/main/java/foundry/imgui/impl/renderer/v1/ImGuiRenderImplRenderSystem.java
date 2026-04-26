@@ -180,7 +180,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
 
         final Iterator<GpuTextureView> iterator = this.data.textures.iterator();
         while (iterator.hasNext()) {
-            iterator.next().imguimc$setId(0);
+            ImGuiMC.getTexture(iterator.next()).imguimc$setId(0);
             iterator.remove();
         }
     }
@@ -429,16 +429,16 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
 
     @Override
     public long getImGuiId(final ImGuiTextureProvider texture, @Nullable final ImGuiSampler sampler) {
-        final GpuTextureView view = switch (texture) {
-            case final AbstractTexture abstractTexture -> abstractTexture.getTextureView();
-            case final GpuTextureView gpuTextureView -> gpuTextureView;
-            default -> throw new IllegalArgumentException("Unexpected value: " + texture);
-        };
-        long id = view.imguimc$id();
+        long id = texture.imguimc$id();
 
         if (id == 0) {
+            final GpuTextureView view = switch (texture) {
+                case final AbstractTexture abstractTexture -> abstractTexture.getTextureView();
+                case final GpuTextureView gpuTextureView -> gpuTextureView;
+                default -> throw new IllegalArgumentException("Unexpected value: " + texture);
+            };
             id = ((ImGuiRenderImplRenderSystem) ImGuiMCImpl.handler.getRenderer()).addTexture(view, (GpuSampler) sampler);
-            view.imguimc$setId(id);
+            texture.imguimc$setId(id);
         }
 
         return id;

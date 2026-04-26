@@ -8,8 +8,6 @@ plugins {
 neoForge {
     version = property("deps.neoforge") as String
 
-    interfaceInjectionData.from(project(":common").file("interfaces.json"))
-
     if (sc.current.parsed < "26.1") {
         parchment {
             minecraftVersion = property("parchment.minecraft") as String

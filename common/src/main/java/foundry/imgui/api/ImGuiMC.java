@@ -1,12 +1,18 @@
 package foundry.imgui.api;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+//? if >=1.21.6 {
+/*import com.mojang.blaze3d.textures.GpuSampler;
+import com.mojang.blaze3d.textures.GpuTextureView;
+*///? }
 import foundry.imgui.api.event.RegisterImGuiFontsEvent;
 import foundry.imgui.impl.ActiveContextImpl;
 import foundry.imgui.impl.ImGuiMCImpl;
 import foundry.imgui.impl.font.ImGuiFontManager;
 import imgui.*;
+import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -84,6 +90,42 @@ public interface ImGuiMC {
     static boolean isImguiLoaded() {
         return ImGuiMCImpl.handler != null;
     }
+
+    /**
+     * Converts the specified abstract texture into a texture provider. The texture <strong>must</strong> be a 2D texture.
+     *
+     * @return The {@link ImGuiTextureProvider} for texture calls
+     * @since 1.1.0
+     */
+    @Contract(value = "null->null", pure = true)
+    static ImGuiTextureProvider getTexture(final AbstractTexture texture) {
+        return (ImGuiTextureProvider) texture;
+    }
+
+    //? if >= 1.21.6 {
+
+    /*/^*
+     * Converts the specified gpu texture into a texture provider. The texture <strong>must</strong> be a 2D texture.
+     *
+     * @return The {@link ImGuiTextureProvider} for texture calls
+     * @since 1.1.0
+     ^/
+    @Contract(value = "null->null", pure = true)
+    static ImGuiTextureProvider getTexture(final GpuTextureView texture) {
+        return (ImGuiTextureProvider) texture;
+    }
+
+    /^*
+     * Converts the specified gpu sampler into a texture provider.
+     *
+     * @return The {@link ImGuiSampler} for texture calls
+     * @since 1.1.0
+     ^/
+    @Contract(value = "null->null", pure = true)
+    static ImGuiSampler getSampler(final GpuSampler sampler) {
+        return (ImGuiSampler) sampler;
+    }
+    *///? }
 
     static void image(final ImGuiTextureProvider userTexture, final ImVec2 size) {
         ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size);

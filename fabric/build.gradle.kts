@@ -7,7 +7,6 @@ plugins {
 
 loom {
     fabricModJsonPath = project(":fabric").file("src/main/resources/fabric.mod.json")
-    accessWidenerPath = project(":fabric").file("src/main/resources/${property("mod.id")}.classtweaker")
 
     decompilerOptions.named("vineflower") {
         options.put("mark-corresponding-synthetics", "1") // Adds names to lambdas - useful for mixins
