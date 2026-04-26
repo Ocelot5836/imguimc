@@ -21,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 public interface ImGuiMC {
 
     ResourceLocation FONT_JETBRAINS_MONO = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "jetbrains_mono");
-    ResourceLocation FONT_REMIXICON = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "remixicon");
     ResourceLocation FONT_DEFAULT = FONT_JETBRAINS_MONO;
 
     String MOD_ID = "imguimc";
