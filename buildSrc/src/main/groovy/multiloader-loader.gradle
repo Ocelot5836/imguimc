@@ -86,25 +86,28 @@ publishMods {
     displayName = "${property("mod.name")} $loaderName ${rootProject.property("mod.version")} for mc${property("mod.mc_title")}"
     modLoaders.add(project.parent.name.split("-")[0])
 
-    curseforge {
-        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        projectId = "1524200"
-        projectSlug = "imguimc"
+    // Curseforge doesn't support 26.2 yet
+    if (sc.current.parsed <= "26.1") {
+        curseforge {
+            accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+            projectId = "1524200"
+            projectSlug = "imguimc"
 
-        clientRequired = true
-        serverRequired = false
+            clientRequired = true
+            serverRequired = false
 
-        if (isSnapshot) {
-            minecraftVersions.addAll(property("mod.mc_targets").toString().split(' ').collect {
-                def lastIndex = it.lastIndexOf("-")
-                if (lastIndex != -1) {
-                    it.substring(0, lastIndex)
-                } else {
-                    it
-                }
-            }.unique())
-        } else {
-            minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
+            if (isSnapshot) {
+                minecraftVersions.addAll(property("mod.mc_targets").toString().split(' ').collect {
+                    def lastIndex = it.lastIndexOf("-")
+                    if (lastIndex != -1) {
+                        it.substring(0, lastIndex)
+                    } else {
+                        it
+                    }
+                }.unique())
+            } else {
+                minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
+            }
         }
     }
 
