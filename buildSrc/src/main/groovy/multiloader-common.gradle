@@ -82,7 +82,7 @@ publishing {
     repositories {
         mavenLocal()
         maven {
-            url = "https://maven.ryanhcode.dev/#/releases/"
+            url = "https://maven.ryanhcode.dev/releases/"
 
             credentials {
                 username = providers.environmentVariable("MAVEN_USERNAME")
