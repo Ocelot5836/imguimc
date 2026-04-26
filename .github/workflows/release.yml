@@ -26,8 +26,10 @@ jobs:
       - name: Execute Gradle build
         run: ./gradlew build
       - name: Publish mods
-        run: ./gradlew publishMods
+        run: ./gradlew publishMods publish
         env:
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}

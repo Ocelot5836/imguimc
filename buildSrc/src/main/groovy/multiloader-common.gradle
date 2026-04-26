@@ -82,11 +82,11 @@ publishing {
     repositories {
         mavenLocal()
         maven {
-            url = System.getenv('local_maven_url')
+            url = "https://maven.ryanhcode.dev/#/releases/"
 
             credentials {
-                username = System.getenv('local_maven_user')
-                password = System.getenv('local_maven_token')
+                username = providers.environmentVariable("MAVEN_USERNAME")
+                password = providers.environmentVariable("MAVEN_PASSWORD")
             }
 
             authentication {
