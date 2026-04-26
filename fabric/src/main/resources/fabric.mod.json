@@ -37,7 +37,8 @@
       "links": {
         "modmenu.discord": "https://discord.gg/2aqTX9QWKU",
         "modmenu.modrinth": "https://modrinth.com/mod/imguimc",
-        "modmenu.curseforge": "https://curseforge.com/minecraft/mc-mods/imguimc"
+        "modmenu.curseforge": "https://curseforge.com/minecraft/mc-mods/imguimc",
+        "modmenu.wiki": "https://github.com/FoundryMC/imguimc/wiki"
       },
       "badges": [ "library" ]
     }
