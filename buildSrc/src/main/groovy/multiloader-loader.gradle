@@ -86,15 +86,26 @@ publishMods {
     displayName = "${property("mod.name")} $loaderName ${rootProject.property("mod.version")} for mc${property("mod.mc_title")}"
     modLoaders.add(project.parent.name.split("-")[0])
 
-    if(!isSnapshot) {
-        curseforge {
-            accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-            projectId = "1524200"
-            projectSlug = "imguimc"
-            minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
+    curseforge {
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+        projectId = "1524200"
+        projectSlug = "imguimc"
 
-            clientRequired = true
-            serverRequired = false
+        clientRequired = true
+        serverRequired = false
+
+        if (isSnapshot) {
+            minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
+        } else {
+            def versions = property("mod.mc_targets").toString().split(' ')
+            for (final def vers in versions) {
+                def lastIndex = vers.lastIndexOf("-")
+                if (lastIndex != -1) {
+                    minecraftVersions.add(vers.substring(0, lastIndex))
+                } else {
+                    minecraftVersions.add(vers)
+                }
+            }
         }
     }
 
