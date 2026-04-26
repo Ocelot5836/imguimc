@@ -95,8 +95,6 @@ publishMods {
         serverRequired = false
 
         if (isSnapshot) {
-            minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
-        } else {
             def versions = property("mod.mc_targets").toString().split(' ')
             for (final def vers in versions) {
                 def lastIndex = vers.lastIndexOf("-")
@@ -106,6 +104,8 @@ publishMods {
                     minecraftVersions.add(vers)
                 }
             }
+        } else {
+            minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
         }
     }
 
