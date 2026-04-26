@@ -121,6 +121,7 @@ publishMods {
         github {
             repository = "FoundryMC/imguimc"
             accessToken = providers.environmentVariable("GITHUB_TOKEN")
+            displayName = "${property("mod.name")} ${rootProject.property("mod.version")} for mc${property("mod.mc_title")}"
             tagName = "${rootProject.property("mod.version")}-${property("mod.name")}"
             commitish = "main"
 
