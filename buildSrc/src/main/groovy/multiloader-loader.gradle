@@ -65,13 +65,14 @@ publishMods {
     def isNeoforge = project.parent.name == "neoforge"
     def isFabric = project.parent.name == "fabric"
     def isMappedFabric = project.parent.name == "fabric-mapped"
+    def isSnapshot = sc.current.version.contains("snapshot")
 
     assert isNeoforge || isFabric || isMappedFabric
 
     def loaderName = isNeoforge ? "NeoForge" : "Fabric"
     def changelogFile = rootProject.file("CHANGELOG.md")
 
-    type = sc.current.version.contains("snapshot") ? ALPHA : STABLE
+    type = isSnapshot ? ALPHA : STABLE
 
     file = isMappedFabric ? project.tasks.remapJar.archiveFile : jar.archiveFile
     if (isMappedFabric) {
@@ -85,14 +86,16 @@ publishMods {
     displayName = "${property("mod.name")} $loaderName ${rootProject.property("mod.version")} for mc${property("mod.mc_title")}"
     modLoaders.add(project.parent.name.split("-")[0])
 
-    curseforge {
-        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        projectId = "1524200"
-        projectSlug = "imguimc"
-        minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
+    if(!isSnapshot) {
+        curseforge {
+            accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+            projectId = "1524200"
+            projectSlug = "imguimc"
+            minecraftVersions.addAll(property("mod.mc_targets").toString().split(' '))
 
-        clientRequired = true
-        serverRequired = false
+            clientRequired = true
+            serverRequired = false
+        }
     }
 
     modrinth {
