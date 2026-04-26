@@ -95,7 +95,7 @@ publishMods {
         serverRequired = false
 
         if (isSnapshot) {
-            minecraftVersions.addAll(property("mod.mc_targets").toString().split(' ').findAll {
+            minecraftVersions.addAll(property("mod.mc_targets").toString().split(' ').collect {
                 def lastIndex = it.lastIndexOf("-")
                 if (lastIndex != -1) {
                     it.substring(0, lastIndex)
