@@ -1,3 +1,1 @@
-- Add `ImGuiLoadEvent` that fires after ImGui has successfully loaded
-- Remove interface injection
-- Added getters for `ImGuiTextureProvider` and `ImGuiSampler`
+- Fix issues with detected Minecraft versions
