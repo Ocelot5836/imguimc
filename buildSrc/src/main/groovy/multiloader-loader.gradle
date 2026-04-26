@@ -71,7 +71,7 @@ publishMods {
     def loaderName = isNeoforge ? "NeoForge" : "Fabric"
     def changelogFile = rootProject.file("CHANGELOG.md")
 
-    type = STABLE
+    type = sc.current.version.contains("snapshot") ? ALPHA : STABLE
 
     file = isMappedFabric ? project.tasks.remapJar.archiveFile : jar.archiveFile
     if (isMappedFabric) {
