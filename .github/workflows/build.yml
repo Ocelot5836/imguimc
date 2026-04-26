@@ -11,6 +11,8 @@ on:
       - '**/build.gradle'
       - '**/build.gradle.kts'
       - '.github/workflows/build.yml'
+env:
+  CI: 'true'
 
 jobs:
   build:

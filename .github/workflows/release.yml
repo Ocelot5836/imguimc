@@ -1,5 +1,7 @@
 name: Release
 on: [workflow_dispatch] # Manual trigger
+env:
+  CI: 'true'
 
 permissions:
   contents: write
