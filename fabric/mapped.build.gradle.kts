@@ -6,7 +6,7 @@ plugins {
 }
 
 loom {
-    fabricModJsonPath = project(":fabric-mapped").file("src/main/resources/fabric.mod.json")
+    fabricModJsonPath = project(":fabric").file("src/main/resources/fabric.mod.json")
 
     decompilerOptions.named("vineflower") {
         options.put("mark-corresponding-synthetics", "1") // Adds names to lambdas - useful for mixins

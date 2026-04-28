@@ -3,7 +3,7 @@ package foundry.imgui.fabric.mixin;
 import com.mojang.blaze3d.platform.Window;
 import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.ImGuiMCImpl;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,10 +22,10 @@ public class WindowMixin {
         }
 
         //? if < 1.21.6 {
-        /*final Identifier id = Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
+        final ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
         net.fabricmc.fabric.api.resource.ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener() {
             @Override
-            public Identifier getFabricId() {
+            public ResourceLocation getFabricId() {
                 return id;
             }
 
@@ -39,12 +39,12 @@ public class WindowMixin {
                 return id.toString();
             }
         });
-        *///? } else if < 26.1 {
-        /*final Identifier id = Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
+        //? } else if < 26.1 {
+        /*final ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
         net.fabricmc.fabric.api.resource.v1.ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(id, ImGuiMCImpl.handler.getFontManager());
         *///? } else {
-        final Identifier id = Identifier.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
+        /*final ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
         net.fabricmc.fabric.api.resource.v1.ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(id, ImGuiMCImpl.handler.getFontManager());
-        //? }
+        *///? }
     }
 }

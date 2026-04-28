@@ -19,10 +19,8 @@ stonecutter {
         branch("common") {
             versions("1.21.1", "1.21.11", "26.1", "26.2-snapshot-3", "26.2-snapshot-4")
         }
-        branch("fabric-mapped") {
-            versions("1.21.1", "1.21.11")
-        }
         branch("fabric") {
+            versions("1.21.1", "1.21.11").buildscript("mapped.build.gradle.kts")
             versions("26.1", "26.2-snapshot-3")
         }
         branch("neoforge") {

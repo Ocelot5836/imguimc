@@ -85,8 +85,8 @@ publishing {
             url = "https://maven.ryanhcode.dev/releases/"
 
             credentials {
-                username = providers.environmentVariable("MAVEN_USERNAME").get()
-                password = providers.environmentVariable("MAVEN_PASSWORD").get()
+                username = providers.environmentVariable("MAVEN_USERNAME").getOrNull()
+                password = providers.environmentVariable("MAVEN_PASSWORD").getOrNull()
             }
 
             authentication {
