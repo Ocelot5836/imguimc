@@ -22,7 +22,7 @@ public class WindowMixin {
         }
 
         //? if < 1.21.6 {
-        final ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
+        final ResourceLocation id = ImGuiMCImpl.path("font_manager");
         net.fabricmc.fabric.api.resource.ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener() {
             @Override
             public ResourceLocation getFabricId() {
@@ -40,10 +40,10 @@ public class WindowMixin {
             }
         });
         //? } else if < 26.1 {
-        /*final ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
+        /*final ResourceLocation id = ImGuiMCImpl.path("font_manager");
         net.fabricmc.fabric.api.resource.v1.ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(id, ImGuiMCImpl.handler.getFontManager());
         *///? } else {
-        /*final ResourceLocation id = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "font_manager");
+        /*final ResourceLocation id = ImGuiMCImpl.path("font_manager");
         net.fabricmc.fabric.api.resource.v1.ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(id, ImGuiMCImpl.handler.getFontManager());
         *///? }
     }

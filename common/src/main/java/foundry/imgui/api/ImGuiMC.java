@@ -12,6 +12,7 @@ import foundry.imgui.impl.font.ImGuiFontManager;
 import imgui.*;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface ImGuiMC {
 
-    ResourceLocation FONT_JETBRAINS_MONO = ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, "jetbrains_mono");
+    ResourceLocation FONT_JETBRAINS_MONO = ImGuiMCImpl.path("jetbrains_mono");
     ResourceLocation FONT_DEFAULT = FONT_JETBRAINS_MONO;
 
     String MOD_ID = "imguimc";

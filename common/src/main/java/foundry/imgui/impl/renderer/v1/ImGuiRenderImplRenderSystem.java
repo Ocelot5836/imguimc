@@ -54,9 +54,9 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
             if (element == null) {
                 //? if <=1.21.11 {
                 posElement = VertexFormatElement.register(i, 0, VertexFormatElement.Type.FLOAT, VertexFormatElement.Usage.POSITION, 2);
-                //? } else if <=26.1 {
+                 //? } else if <=26.1 {
                 /^posElement = VertexFormatElement.register(i, 0, VertexFormatElement.Type.FLOAT, false, 2);
-                 ^///? } else {
+                ^///? } else {
                 /^posElement = VertexFormatElement.register(i, 0, com.mojang.blaze3d.GpuFormat.RG32_FLOAT);
                  ^///? }
                 break;
@@ -125,7 +125,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
             .withBlend(BlendFunction.TRANSLUCENT)
             //? } else {
             /^.withColorTargetState(new com.mojang.blaze3d.pipeline.ColorTargetState(Optional.of(BlendFunction.TRANSLUCENT), com.mojang.blaze3d.pipeline.ColorTargetState.WRITE_ALL))
-             ^///? }
+            ^///? }
             .withCull(false)
             .withVertexFormat(VERTEX_FORMAT, VertexFormat.Mode.TRIANGLES)
             .build();

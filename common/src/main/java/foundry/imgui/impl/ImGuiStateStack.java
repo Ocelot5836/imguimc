@@ -6,13 +6,13 @@ import imgui.extension.implot.ImPlotContext;
 import imgui.internal.ImGuiContext;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 @ApiStatus.Internal
 public class ImGuiStateStack {
 
-    private static final List<State> STATE_STACK = new ArrayList<>(1);
+    private static final Deque<State> STATE_STACK = new ArrayDeque<>(1);
 
     public static void push() {
         final long imGuiContext = ImGui.getCurrentContext().ptr;

@@ -3,6 +3,7 @@ package foundry.imgui.impl;
 import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.platform.ImGuiMCPlatform;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,5 +32,13 @@ public final class ImGuiMCImpl {
             LOGGER.error("Failed to load ImGui, disabling", t);
             handler = null;
         }
+    }
+
+    public static ResourceLocation path(final String path) {
+        //? if <1.21 {
+        /*return new ResourceLocation(ImGuiMC.MOD_ID, path);
+         *///? } else {
+        return ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, path);
+        //? }
     }
 }
