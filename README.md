@@ -15,5 +15,9 @@ This library provides the following:
 - Automatic .ttf font loading for ImGui styles
 - Support for `GpuTexture` and `GpuTextureView` as texture sources
 
-- Support for `Custom Text Editors` for any Language `Preset available for GLSL,HLSL,MSL` with preset themes available
-- Support for `Custom Guizmos` and `Display Panels` with preset themes available
+- Support for `Custom Text Editors` for any language
+    - Presets available for `GLSL, HLSL, and MSL`
+    - Built-in themes and `autocomplete support`
+
+- Support for `Custom Gizmos` and `Display Panels`
+    - Includes preset themes
