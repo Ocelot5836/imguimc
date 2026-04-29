@@ -33,3 +33,6 @@ This library provides the following:
   - Includes preset themes  
 
 ![Guizmo Panel](https://github.com/Manyaarvadiya/imguimc/blob/911dd6beb4557d56e9f9927521d847004ce7386f/wiki/screenshots/guizmo/dark.png)
+
+## WIKI
+[📖 Wiki](https://github.com/Manyaarvadiya/imguimc/wiki)
