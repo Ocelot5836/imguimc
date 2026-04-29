@@ -18,6 +18,6 @@ This library provides the following:
 - Support for `Custom Text Editors` for any language
     - Presets available for `GLSL, HLSL, and MSL`
     - Built-in themes and `autocomplete support`
-
+[![Text Editor](https://github.com/Manyaarvadiya/imguimc/blob/f00bf4f66fb17f852599cf9b4615b042f77f699c/wiki/screenshots/texteditor/GLSL.png)]
 - Support for `Custom Gizmos` and `Display Panels`
     - Includes preset themes
