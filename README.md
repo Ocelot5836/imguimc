@@ -21,3 +21,4 @@ This library provides the following:
 [![Text Editor](https://github.com/Manyaarvadiya/imguimc/blob/f00bf4f66fb17f852599cf9b4615b042f77f699c/wiki/screenshots/texteditor/GLSL.png)]
 - Support for `Custom Gizmos` and `Display Panels`
     - Includes preset themes
+[![Guizmo Pannel]([https://github.com/Manyaarvadiya/imguimc/blob/f00bf4f66fb17f852599cf9b4615b042f77f699c/wiki/screenshots/texteditor/GLSL.png](https://github.com/Manyaarvadiya/imguimc/blob/bc5f07da93b333c2a98df8c8f3060c1967d50d4c/wiki/screenshots/guizmo/dark.png))]
