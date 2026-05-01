@@ -89,6 +89,6 @@ dependencies {
 
 ## What's included
 
-- **[Text Editor](Text-Editor)** — a code editor widget with syntax highlighting, autocomplete, undo/redo, and theming. Comes with built-in presets for GLSL, HLSL, and MSL, plus a clean interface for adding your own language.
+- **[Text Editor](https://github.com/Manyaarvadiya/imguimc/blob/ef3e75e077ebbddb46db9994cbe8948fa5e46185/wiki/Text-Editor.md)** — a code editor widget with syntax highlighting, autocomplete, undo/redo, and theming. Comes with built-in presets for GLSL, HLSL, and MSL, plus a clean interface for adding your own language.
 
-- **[Gizmos & Display Panels](Gizmos)** — a 3D transform gizmo (translate/rotate/scale/bounds) with an orbit camera, view cube, snapping, grid, mini-bar, and a full theming system.
+- **[Gizmos & Display Panels](https://github.com/Manyaarvadiya/imguimc/blob/ef3e75e077ebbddb46db9994cbe8948fa5e46185/wiki/Gizmos.md)** — a 3D transform gizmo (translate/rotate/scale/bounds) with an orbit camera, view cube, snapping, grid, mini-bar, and a full theming system.
