@@ -19,11 +19,11 @@ public final class ImGuiMCImpl {
     }
 
     public static void initHandler() {
-        //? if <=1.21.8 {
-        final long window = Minecraft.getInstance().getWindow().getWindow();
-        //? } else {
+        //? if >=1.21.9 {
         /*final long window = Minecraft.getInstance().getWindow().handle();
-        *///? }
+        *///? } else {
+        final long window = Minecraft.getInstance().getWindow().getWindow();
+        //? }
 
         try {
             handler = new ImGuiHandler(window);

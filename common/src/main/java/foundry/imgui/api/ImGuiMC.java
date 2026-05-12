@@ -98,7 +98,6 @@ public interface ImGuiMC {
     }
 
     //? if >= 1.21.6 {
-
     /*/^*
      * Converts the specified gpu texture into a texture provider. The texture <strong>must</strong> be a 2D texture.
      *
@@ -109,8 +108,10 @@ public interface ImGuiMC {
     static ImGuiTextureProvider getTexture(final com.mojang.blaze3d.textures.GpuTextureView texture) {
         return (ImGuiTextureProvider) texture;
     }
+    *///? }
 
-    /^*
+    //? if >= 1.21.11 {
+    /*/^*
      * Converts the specified gpu sampler into a texture provider.
      *
      * @return The {@link ImGuiSampler} for texture calls

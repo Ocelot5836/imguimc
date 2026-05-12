@@ -11,10 +11,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftMixin {
 
     //? if >= 1.21 {
-    @Inject(method = "runTick", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", args = "ldc=mouse"))
-    //? } else {
+    @Inject(method = "runTick", at = {
+            @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = "ldc=mouse"),
+            @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", args = "ldc=mouse")
+    })
+            //? } else {
     /*@Inject(method = "runTick", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = "ldc=display"))
-    *///? }
+     *///? }
     public void beginFrame(final CallbackInfo ci) {
         if (ImGuiMCImpl.handler != null) {
             ImGuiMCImpl.handler.beginFrame();
@@ -24,10 +27,13 @@ public class MinecraftMixin {
     //? if >=26.1 {
     /*@Inject(method = "renderFrame", at=@At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = "ldc=present"))
      *///? } elif >=1.21.6 {
-    /*@Inject(method = "runTick", at=@At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", args = "ldc=blit"))
-     *///? } else {
+    /*@Inject(method = "runTick", at = {
+            @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V", args = "ldc=blit"),
+            @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", args = "ldc=blit")
+    })
+            *///? } else {
     @Inject(method = "runTick", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", args = "ldc=updateDisplay"))
-    //? }
+     //? }
     public void endFrame(final CallbackInfo ci) {
         if (ImGuiMCImpl.handler != null) {
             ImGuiMCImpl.handler.endFrame();

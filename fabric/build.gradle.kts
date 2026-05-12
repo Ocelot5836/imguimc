@@ -28,13 +28,13 @@ dependencies {
      */
     fun fapi(vararg modules: String) {
         for (it in modules) {
-            implementation(fabricApi.module(it, property("deps.fabric_api") as String))
-            include(fabricApi.module(it, property("deps.fabric_api") as String))
+            implementation(fabricApi.module(it, project.property("deps.fabric_api") as String))
+            include(fabricApi.module(it, project.property("deps.fabric_api") as String))
         }
     }
 
     minecraft("com.mojang:minecraft:${sc.current.version}")
-    implementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
+    implementation("net.fabricmc:fabric-loader:${project.property("deps.fabric_loader")}")
 
     fapi("fabric-api-base", "fabric-resource-loader-v1")
 
