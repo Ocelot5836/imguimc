@@ -23,12 +23,12 @@ public class ImGuiMCEventsImpl implements ImGuiMCEvents {
     }
 
     @Override
-    public void preRenderImGuiEvents(final RenderImGuiEvents.Pre event) {
+    public void preRenderImGuiEvent(final RenderImGuiEvents.Pre event) {
         RenderImGuiEventsFabric.PRE.register(event);
     }
 
     @Override
-    public void postRenderImGuiEvents(final RenderImGuiEvents.Post event) {
+    public void postRenderImGuiEvent(final RenderImGuiEvents.Post event) {
         RenderImGuiEventsFabric.POST.register(event);
     }
 }
