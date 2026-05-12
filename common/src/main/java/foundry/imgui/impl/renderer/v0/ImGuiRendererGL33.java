@@ -2,6 +2,8 @@ package foundry.imgui.impl.renderer.v0;
 
 //? if <1.21.6 {
 
+import static org.lwjgl.opengl.GL33C.*;
+import static org.lwjgl.opengl.GL45C.GL_CLIP_ORIGIN;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import foundry.imgui.api.ImGuiSampler;
 import foundry.imgui.api.ImGuiTextureProvider;
@@ -13,16 +15,11 @@ import imgui.flag.ImGuiConfigFlags;
 import imgui.flag.ImGuiViewportFlags;
 import imgui.type.ImInt;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.AbstractTexture;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
-
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-
-import static org.lwjgl.opengl.GL33C.*;
-import static org.lwjgl.opengl.GL45C.GL_CLIP_ORIGIN;
 
 /**
  * This class is a straightforward port of the
@@ -343,16 +340,31 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
         glBindBuffer(GL_ARRAY_BUFFER, this.props.lastArrayBuffer[0]);
         glBlendEquationSeparate(this.props.lastBlendEquationRgb[0], this.props.lastBlendEquationAlpha[0]);
         glBlendFuncSeparate(this.props.lastBlendSrcRgb[0], this.props.lastBlendDstRgb[0], this.props.lastBlendSrcAlpha[0], this.props.lastBlendDstAlpha[0]);
-        if (this.props.lastEnableBlend) glEnable(GL_BLEND);
-        else glDisable(GL_BLEND);
-        if (this.props.lastEnableCullFace) glEnable(GL_CULL_FACE);
-        else glDisable(GL_CULL_FACE);
-        if (this.props.lastEnableDepthTest) glEnable(GL_DEPTH_TEST);
-        else glDisable(GL_DEPTH_TEST);
-        if (this.props.lastEnableStencilTest) glEnable(GL_STENCIL_TEST);
-        else glDisable(GL_STENCIL_TEST);
-        if (this.props.lastEnableScissorTest) glEnable(GL_SCISSOR_TEST);
-        else glDisable(GL_SCISSOR_TEST);
+        if (this.props.lastEnableBlend) {
+            glEnable(GL_BLEND);
+        } else {
+            glDisable(GL_BLEND);
+        }
+        if (this.props.lastEnableCullFace) {
+            glEnable(GL_CULL_FACE);
+        } else {
+            glDisable(GL_CULL_FACE);
+        }
+        if (this.props.lastEnableDepthTest) {
+            glEnable(GL_DEPTH_TEST);
+        } else {
+            glDisable(GL_DEPTH_TEST);
+        }
+        if (this.props.lastEnableStencilTest) {
+            glEnable(GL_STENCIL_TEST);
+        } else {
+            glDisable(GL_STENCIL_TEST);
+        }
+        if (this.props.lastEnableScissorTest) {
+            glEnable(GL_SCISSOR_TEST);
+        } else {
+            glDisable(GL_SCISSOR_TEST);
+        }
         if (this.props.lastEnablePrimitiveRestart) {
             glEnable(GL_PRIMITIVE_RESTART);
         } else {
@@ -376,14 +388,7 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
 
     @Override
     public long getImGuiId(final ImGuiTextureProvider texture, @Nullable final ImGuiSampler sampler) {
-        if (!(texture instanceof final AbstractTexture abstractTexture)) {
-            throw new IllegalArgumentException("Invalid texture provided");
-        }
-//? if <1.21.5 {
-        return abstractTexture.getId();
-//? } elif <1.21.11 {
-        /*return ((com.mojang.blaze3d.opengl.GlTexture) abstractTexture.getTexture()).glId();
-*///? }
+        return texture.imguimc$id();
     }
 
     public void createFontsTexture() {

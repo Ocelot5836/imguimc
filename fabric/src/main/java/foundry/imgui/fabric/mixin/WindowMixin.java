@@ -1,17 +1,13 @@
 package foundry.imgui.fabric.mixin;
 
 import com.mojang.blaze3d.platform.Window;
-import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.ImGuiMCImpl;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.ResourceManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 @Mixin(Window.class)
 public class WindowMixin {
@@ -27,7 +23,7 @@ public class WindowMixin {
         //? if >=26.1 {
         /*final ResourceLocation id = ImGuiMCImpl.path("font_manager");
         net.fabricmc.fabric.api.resource.v1.ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(id, ImGuiMCImpl.handler.getFontManager());
-        *///? } else if >= 1.21.6 {
+        *///? } else if >= 1.21.9 {
         /*final ResourceLocation id = ImGuiMCImpl.path("font_manager");
         net.fabricmc.fabric.api.resource.v1.ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(id, ImGuiMCImpl.handler.getFontManager());
         *///? } else if >= 1.21.2 {
