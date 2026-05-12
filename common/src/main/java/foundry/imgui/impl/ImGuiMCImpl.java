@@ -1,5 +1,6 @@
 package foundry.imgui.impl;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.platform.ImGuiMCPlatform;
 import net.minecraft.client.Minecraft;
@@ -23,7 +24,7 @@ public final class ImGuiMCImpl {
         /*final long window = Minecraft.getInstance().getWindow().handle();
         *///? } else {
         final long window = Minecraft.getInstance().getWindow().getWindow();
-        //? }
+         //? }
 
         try {
             handler = new ImGuiHandler(window);
@@ -35,10 +36,14 @@ public final class ImGuiMCImpl {
     }
 
     public static ResourceLocation path(final String path) {
-        //? if <1.21 {
-        /*return new ResourceLocation(ImGuiMC.MOD_ID, path);
-         *///? } else {
         return ResourceLocation.fromNamespaceAndPath(ImGuiMC.MOD_ID, path);
-        //? }
+    }
+
+    public static RenderTarget getMainRenderTarget() {
+        //? if >= 26.2-snapshot-3 {
+        /*return Minecraft.getInstance().gameRenderer.mainRenderTarget();
+        *///? } else {
+        return Minecraft.getInstance().getMainRenderTarget();
+         //? }
     }
 }

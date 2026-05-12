@@ -88,12 +88,6 @@ public class ImGuiHandler {
 
     public void beginFrame() {
         try {
-            //? if <= 26.1 {
-            final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
-            //? } else {
-            /*final RenderTarget renderTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget();
-             *///? }
-
             this.start();
 
             if (this.active.get()) {
@@ -106,7 +100,7 @@ public class ImGuiHandler {
                 this.rendererImpl.recreateFontsTexture();
             }
             this.rendererImpl.newFrame();
-            this.windowImpl.newFrame(renderTarget);
+            this.windowImpl.newFrame(ImGuiMCImpl.getMainRenderTarget());
             ImGui.newFrame();
 
             ImGuiMCPlatform.INSTANCE.drawImGuiPre();
@@ -130,11 +124,7 @@ public class ImGuiHandler {
 
             this.active.set(false);
 
-            //? if <= 26.1 {
-            final RenderTarget renderTarget = Minecraft.getInstance().getMainRenderTarget();
-            //? } else {
-            /*final RenderTarget renderTarget = Minecraft.getInstance().gameRenderer.mainRenderTarget();
-             *///? }
+            final RenderTarget renderTarget = ImGuiMCImpl.getMainRenderTarget();
 
             //? if >=1.21.6 {
             /*final com.mojang.blaze3d.textures.GpuTextureView view = renderTarget.getColorTextureView();
