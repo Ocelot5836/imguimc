@@ -148,8 +148,9 @@ public class ImGuiFontManagerImpl implements ImGuiFontManager {
             glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), xscale, yscale);
 
             scale = Math.max(xscale.get(0), yscale.get(0));
-            // Hack because macs seem to report massive values for some reason
-            if (glfwGetPlatform() == GLFW_PLATFORM_COCOA) {
+            // Hack because macs and wayland seem to report massive values for some reason
+            final int platform = glfwGetPlatform();
+            if (platform == GLFW_PLATFORM_COCOA || platform == GLFW_PLATFORM_WAYLAND) {
                 scale /= 2;
             }
             scale = Math.max(1.0F, scale);

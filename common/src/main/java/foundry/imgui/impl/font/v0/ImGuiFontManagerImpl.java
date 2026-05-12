@@ -2,6 +2,7 @@ package foundry.imgui.impl.font.v0;
 
 //? if <1.21.4 {
 
+import static org.lwjgl.glfw.GLFW.*;
 import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.ImGuiMCImpl;
 import foundry.imgui.impl.font.ImGuiFontManager;
@@ -28,9 +29,6 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-
-import static org.lwjgl.glfw.GLFW.glfwGetMonitorContentScale;
-import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
 
 @ApiStatus.Internal
 public class ImGuiFontManagerImpl implements ImGuiFontManager {
@@ -148,8 +146,9 @@ public class ImGuiFontManagerImpl implements ImGuiFontManager {
             glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), xscale, yscale);
 
             scale = Math.max(xscale.get(0), yscale.get(0));
-            // Hack because macs seem to report massive values for some reason
-            if (Minecraft.ON_OSX) {
+            // Hack because macs and wayland seem to report massive values for some reason
+            final int platform = glfwGetPlatform();
+            if (platform == GLFW_PLATFORM_COCOA || platform == GLFW_PLATFORM_WAYLAND) {
                 scale /= 2;
             }
             scale = Math.max(1.0F, scale);
