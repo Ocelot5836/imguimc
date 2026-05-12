@@ -65,14 +65,16 @@ public class ImGuiFontManagerImpl implements ImGuiFontManager {
         }
     }
 
-    @NotNull
+    //? if >=1.21.2 {
+    /*@NotNull
     @Override
-    //? if <=1.21.1 {
-    public CompletableFuture<Void> reload(final PreparationBarrier preparationBarrier, @NotNull final ResourceManager resourceManager, @NotNull final net.minecraft.util.profiling.ProfilerFiller preparationsProfiler, @NotNull final net.minecraft.util.profiling.ProfilerFiller reloadProfiler, @NotNull final Executor backgroundExecutor, @NotNull final Executor gameExecutor)
-    //?} elif <= 1.21.11 {
-    /*public CompletableFuture<Void> reload(@NotNull final PreparationBarrier preparationBarrier, @NotNull final ResourceManager resourceManager, @NotNull final Executor backgroundExecutor, @NotNull final Executor gameExecutor)
-    *///?}
-            {
+    public CompletableFuture<Void> reload(final PreparationBarrier preparationBarrier, @NotNull final ResourceManager resourceManager, @NotNull final Executor backgroundExecutor, @NotNull final Executor gameExecutor) {
+    *///? } else {
+        @NotNull
+        @Override
+        public CompletableFuture<Void> reload(final PreparationBarrier preparationBarrier, @NotNull final ResourceManager resourceManager, @NotNull final net.minecraft.util.profiling.ProfilerFiller preparationsProfiler, @NotNull final net.minecraft.util.profiling.ProfilerFiller reloadProfiler, @NotNull final Executor backgroundExecutor, @NotNull final Executor gameExecutor) {
+    //? }
+
         return CompletableFuture.supplyAsync(() -> {
             final Map<ResourceLocation, FontData> fontData = new HashMap<>();
 

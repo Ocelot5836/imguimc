@@ -29,7 +29,6 @@ import imgui.flag.ImGuiBackendFlags;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.flag.ImGuiViewportFlags;
 import imgui.type.ImInt;
-import net.minecraft.client.renderer.MappableRingBuffer;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
@@ -56,11 +55,11 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
             if (element == null) {
                 //? if >=26.2-snapshot-1 {
                 /^posElement = com.mojang.blaze3d.vertex.VertexFormatElement.register(i, 0, com.mojang.blaze3d.GpuFormat.RG32_FLOAT);
-                ^///? } else if >= 26.1 {
+                 ^///? } else if >= 26.1 {
                 /^posElement = com.mojang.blaze3d.vertex.VertexFormatElement.register(i, 0, com.mojang.blaze3d.vertex.VertexFormatElement.Type.FLOAT, false, 2);
                 ^///? } else {
                 posElement = com.mojang.blaze3d.vertex.VertexFormatElement.register(i, 0, com.mojang.blaze3d.vertex.VertexFormatElement.Type.FLOAT, com.mojang.blaze3d.vertex.VertexFormatElement.Usage.POSITION, 2);
-                //? }
+                 //? }
                 break;
             }
         }
@@ -125,11 +124,11 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
             //? }
             //? if >=26.2-snapshot-6 {
             /^.withColorTargetState(new com.mojang.blaze3d.pipeline.ColorTargetState(BlendFunction.TRANSLUCENT))
-            ^///? } else if >=26.1 {
+             ^///? } else if >=26.1 {
             /^.withColorTargetState(new com.mojang.blaze3d.pipeline.ColorTargetState(Optional.of(BlendFunction.TRANSLUCENT), com.mojang.blaze3d.pipeline.ColorTargetState.WRITE_ALL))
             ^///? } else {
             .withBlend(BlendFunction.TRANSLUCENT)
-            //? }
+             //? }
             .withCull(false)
             //? if >=26.2-snapshot-6 {
             /^.withVertexBinding(0, VERTEX_FORMAT)
@@ -165,8 +164,8 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         protected GpuTexture fontTexture;
         protected CompiledRenderPipeline pipelineHandle;
         protected CachedImguiOrthoBuffer projectionMatrixBuffer;
-        protected List<MappableRingBuffer> vertexData = new ArrayList<>();
-        protected List<MappableRingBuffer> indexData = new ArrayList<>();
+        protected List<GpuBuffer> vertexData = new ArrayList<>();
+        protected List<GpuBuffer> indexData = new ArrayList<>();
         protected int elementSize;
         protected List<GpuTextureView> textures = new ArrayList<>();
         //? if >= 1.21.11 {
@@ -209,7 +208,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
     private void clearVertexData(final int maxCommands) {
         final int removeVertices = this.data.vertexData.size() - maxCommands;
         if (removeVertices > 0) {
-            final Iterator<MappableRingBuffer> iterator = this.data.vertexData.iterator();
+            final Iterator<GpuBuffer> iterator = this.data.vertexData.iterator();
             for (int i = 0; i < removeVertices; i++) {
                 iterator.next().close();
                 iterator.remove();
@@ -218,7 +217,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
 
         final int removeIndices = this.data.indexData.size() - maxCommands;
         if (removeIndices > 0) {
-            final Iterator<MappableRingBuffer> iterator = this.data.indexData.iterator();
+            final Iterator<GpuBuffer> iterator = this.data.indexData.iterator();
             for (int i = 0; i < removeIndices; i++) {
                 iterator.next().close();
                 iterator.remove();
@@ -256,7 +255,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
     ^///? } else {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private void renderDrawData(final ImDrawData drawData, final RenderTarget renderTarget, final OptionalInt clearColor) {
-    //? }
+        //? }
 
         // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
         final int fbWidth = (int) (drawData.getDisplaySizeX() * drawData.getFramebufferScaleX());
@@ -286,7 +285,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
         final float clipScaleY = drawData.getFramebufferScaleY(); // (1,1) unless using retina display which are often (2,2)
 
         if (ImDrawData.sizeOfImDrawIdx() != this.data.elementSize) {
-            final Iterator<MappableRingBuffer> iterator = this.data.indexData.iterator();
+            final Iterator<GpuBuffer> iterator = this.data.indexData.iterator();
             while (iterator.hasNext()) {
                 iterator.next().close();
                 iterator.remove();
@@ -307,48 +306,48 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
 
         // Set up buffers
         for (int n = 0; n < cmdListsCount; n++) {
-            final MappableRingBuffer vertexBuffer;
+            final GpuBuffer vertexBuffer;
             final int vertexBufferSize = drawData.getCmdListVtxBufferSize(n) * ImDrawData.sizeOfImDrawVert();
 
             if (n >= this.data.vertexData.size()) {
                 final int index = n;
-                vertexBuffer = new MappableRingBuffer(() -> "ImGui Vertex Buffer " + index, GpuBuffer.USAGE_COPY_DST | GpuBuffer.USAGE_VERTEX, vertexBufferSize);
+                vertexBuffer = device.createBuffer(() -> "ImGui Vertex Buffer " + index, GpuBuffer.USAGE_COPY_DST | GpuBuffer.USAGE_VERTEX, vertexBufferSize);
                 this.data.vertexData.add(vertexBuffer);
             } else {
-                final MappableRingBuffer buffer = this.data.vertexData.get(n);
+                final GpuBuffer buffer = this.data.vertexData.get(n);
 
                 if (buffer.size() >= vertexBufferSize) {
                     vertexBuffer = buffer;
                 } else {
                     buffer.close();
                     final int index = n;
-                    vertexBuffer = new MappableRingBuffer(() -> "ImGui Vertex Buffer " + index, GpuBuffer.USAGE_COPY_DST | GpuBuffer.USAGE_VERTEX, vertexBufferSize);
+                    vertexBuffer = device.createBuffer(() -> "ImGui Vertex Buffer " + index, GpuBuffer.USAGE_COPY_DST | GpuBuffer.USAGE_VERTEX, vertexBufferSize);
                     this.data.vertexData.set(n, vertexBuffer);
                 }
             }
 
-            final MappableRingBuffer indexBuffer;
+            final GpuBuffer indexBuffer;
             final int indexBufferSize = drawData.getCmdListIdxBufferSize(n) * this.data.elementSize;
 
             if (n >= this.data.indexData.size()) {
                 final int index = n;
-                indexBuffer = new MappableRingBuffer(() -> "ImGui Index Buffer " + index, GpuBuffer.USAGE_COPY_DST | GpuBuffer.USAGE_INDEX, indexBufferSize);
+                indexBuffer = device.createBuffer(() -> "ImGui Index Buffer " + index, GpuBuffer.USAGE_COPY_DST | GpuBuffer.USAGE_INDEX, indexBufferSize);
                 this.data.indexData.add(indexBuffer);
             } else {
-                final MappableRingBuffer buffer = this.data.indexData.get(n);
+                final GpuBuffer buffer = this.data.indexData.get(n);
 
                 if (buffer.size() >= indexBufferSize) {
                     indexBuffer = buffer;
                 } else {
                     buffer.close();
                     final int index = n;
-                    indexBuffer = new MappableRingBuffer(() -> "ImGui Index Buffer " + index, GpuBuffer.USAGE_COPY_DST | GpuBuffer.USAGE_INDEX, indexBufferSize);
+                    indexBuffer = device.createBuffer(() -> "ImGui Index Buffer " + index, GpuBuffer.USAGE_COPY_DST | GpuBuffer.USAGE_INDEX, indexBufferSize);
                     this.data.indexData.set(n, indexBuffer);
                 }
             }
 
-            commandEncoder.writeToBuffer(vertexBuffer.currentBuffer().slice(0, vertexBufferSize), drawData.getCmdListVtxBufferData(n));
-            commandEncoder.writeToBuffer(indexBuffer.currentBuffer().slice(0, indexBufferSize), drawData.getCmdListIdxBufferData(n));
+            commandEncoder.writeToBuffer(vertexBuffer.slice(0, vertexBufferSize), drawData.getCmdListVtxBufferData(n));
+            commandEncoder.writeToBuffer(indexBuffer.slice(0, indexBufferSize), drawData.getCmdListIdxBufferData(n));
         }
 
         // TODO viewport
@@ -366,8 +365,8 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
 
             // Render command lists
             for (int n = 0; n < cmdListsCount; n++) {
-                final GpuBuffer vertexBuffer = this.data.vertexData.get(n).currentBuffer();
-                final GpuBuffer indexBuffer = this.data.indexData.get(n).currentBuffer();
+                final GpuBuffer vertexBuffer = this.data.vertexData.get(n);
+                final GpuBuffer indexBuffer = this.data.indexData.get(n);
 
                 //? if >=26.2-snapshot-6 {
                 /^renderPass.setVertexBuffer(0, vertexBuffer.slice());
@@ -414,23 +413,17 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
                     renderPass.bindTexture("Texture", textureId == 1 ? this.data.fontTextureView : this.data.textures.get((int) (textureId - 2)), sampler != null ? sampler : defaultSampler);
                     ^///?} else {
                     renderPass.bindSampler("Texture", textureId == 1 ? this.data.fontTextureView : this.data.textures.get((int) (textureId - 2)));
-                    //?}
+                     //?}
 
                     //? if >=26.2-snapshot-7 {
                     /^renderPass.drawIndexed(elemCount, 1, idxOffset, vtxOffset, 0);
-                    ^///? } else {
+                     ^///? } else {
                     renderPass.drawIndexed(vtxOffset, idxOffset, elemCount, 1);
                     //? }
                 }
             }
         }
 
-        for (final MappableRingBuffer buffer : this.data.vertexData) {
-            buffer.rotate();
-        }
-        for (final MappableRingBuffer buffer : this.data.indexData) {
-            buffer.rotate();
-        }
         this.clearTextures();
     }
 
@@ -457,7 +450,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
     public void renderDrawData(final ImDrawData drawData, final RenderTarget renderTarget) {
         //? if >=26.2-snapshot-6 {
         /^this.renderDrawData(drawData, renderTarget, Optional.empty());
-        ^///? } else {
+         ^///? } else {
         this.renderDrawData(drawData, renderTarget, OptionalInt.empty());
         //? }
     }
@@ -482,7 +475,7 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
             /^id = ((ImGuiRenderImplRenderSystem) ImGuiMCImpl.handler.getRenderer()).addTexture(view, (com.mojang.blaze3d.textures.GpuSampler) sampler);
             ^///? } else {
             id = ((ImGuiRenderImplRenderSystem) ImGuiMCImpl.handler.getRenderer()).addTexture(view);
-            //? }
+             //? }
             texture.imguimc$setId(id);
         }
 
@@ -568,13 +561,13 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
 
         //? if >=26.2-snapshot-6 {
         /^private static final org.joml.Vector4fc CLEAR_COLOR = new org.joml.Vector4f();
-        ^///? }
+         ^///? }
 
         @Override
         public void accept(final ImGuiViewport vp) {
             //? if >=26.2-snapshot-6 {
             /^final Optional<org.joml.Vector4fc> clearColor = !vp.hasFlags(ImGuiViewportFlags.NoRendererClear) ? Optional.of(CLEAR_COLOR) : Optional.empty();
-            ^///? } else {
+             ^///? } else {
             final OptionalInt clearColor = !vp.hasFlags(ImGuiViewportFlags.NoRendererClear) ? OptionalInt.of(0) : OptionalInt.empty();
             //? }
             ImGuiRenderImplRenderSystem.this.renderDrawData(vp.getDrawData(), ImGuiMCImpl.getMainRenderTarget(), clearColor);

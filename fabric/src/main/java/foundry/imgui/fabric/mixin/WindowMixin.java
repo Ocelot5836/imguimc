@@ -5,10 +5,13 @@ import foundry.imgui.api.ImGuiMC;
 import foundry.imgui.impl.ImGuiMCImpl;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ResourceManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 @Mixin(Window.class)
 public class WindowMixin {
@@ -21,7 +24,31 @@ public class WindowMixin {
             return;
         }
 
-        //? if < 1.21.6 {
+        //? if >=26.1 {
+        /*final ResourceLocation id = ImGuiMCImpl.path("font_manager");
+        net.fabricmc.fabric.api.resource.v1.ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(id, ImGuiMCImpl.handler.getFontManager());
+        *///? } else if >= 1.21.6 {
+        /*final ResourceLocation id = ImGuiMCImpl.path("font_manager");
+        net.fabricmc.fabric.api.resource.v1.ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(id, ImGuiMCImpl.handler.getFontManager());
+        *///? } else if >= 1.21.2 {
+        /*final ResourceLocation id = ImGuiMCImpl.path("font_manager");
+        net.fabricmc.fabric.api.resource.ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener() {
+            @Override
+            public ResourceLocation getFabricId() {
+                return id;
+            }
+
+            @Override
+            public java.util.concurrent.CompletableFuture<Void> reload(final PreparationBarrier preparationBarrier, final net.minecraft.server.packs.resources.ResourceManager resourceManager, final java.util.concurrent.Executor backgroundExecutor, final java.util.concurrent.Executor gameExecutor) {
+                return ImGuiMCImpl.handler.getFontManager().reload(preparationBarrier, resourceManager, backgroundExecutor, gameExecutor);
+            }
+
+            @Override
+            public String getName() {
+                return id.toString();
+            }
+        });
+        *///? } else {
         final ResourceLocation id = ImGuiMCImpl.path("font_manager");
         net.fabricmc.fabric.api.resource.ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener() {
             @Override
@@ -39,12 +66,6 @@ public class WindowMixin {
                 return id.toString();
             }
         });
-        //? } else if < 26.1 {
-        /*final ResourceLocation id = ImGuiMCImpl.path("font_manager");
-        net.fabricmc.fabric.api.resource.v1.ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(id, ImGuiMCImpl.handler.getFontManager());
-        *///? } else {
-        /*final ResourceLocation id = ImGuiMCImpl.path("font_manager");
-        net.fabricmc.fabric.api.resource.v1.ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(id, ImGuiMCImpl.handler.getFontManager());
-        *///? }
+        //? }
     }
 }

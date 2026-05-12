@@ -17,14 +17,14 @@ plugins {
 stonecutter {
     create(rootProject) {
         branch("common") {
-            versions("1.21.1", "1.21.4", "1.21.6", "1.21.9", "1.21.11", "26.1", "26.2-snapshot-1", "26.2-snapshot-3", "26.2-snapshot-6", "26.2-snapshot-7")
+            versions("1.21.1", "1.21.2", "1.21.4", "1.21.6", "1.21.9", "1.21.11", "26.1", "26.2-snapshot-1", "26.2-snapshot-3", "26.2-snapshot-6", "26.2-snapshot-7")
         }
         branch("fabric") {
-            versions("1.21.1", "1.21.2", "1.21.11").buildscript("mapped.build.gradle.kts")
-            versions("26.1", "26.2-snapshot-3")
+            versions("1.21.1", "1.21.2", "1.21.4", "1.21.6", "1.21.9", "1.21.11").buildscript("mapped.build.gradle.kts")
+            versions("26.1", "26.2-snapshot-1", "26.2-snapshot-3", "26.2-snapshot-6", "26.2-snapshot-7")
         }
         branch("neoforge") {
-            versions("1.21.1", "1.21.4", "1.21.6", "1.21.9", "1.21.11", "26.1")
+            versions("1.21.1", "1.21.2", "1.21.4", "1.21.6", "1.21.9", "1.21.11", "26.1")
         }
     }
 }
