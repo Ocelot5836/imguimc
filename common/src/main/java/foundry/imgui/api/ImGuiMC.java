@@ -1,10 +1,6 @@
 package foundry.imgui.api;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-//? if >=1.21.6 {
-/*import com.mojang.blaze3d.textures.GpuSampler;
-import com.mojang.blaze3d.textures.GpuTextureView;
-*///? }
 import foundry.imgui.api.event.RegisterImGuiFontsEvent;
 import foundry.imgui.impl.ActiveContextImpl;
 import foundry.imgui.impl.ImGuiMCImpl;
@@ -12,7 +8,6 @@ import foundry.imgui.impl.font.ImGuiFontManager;
 import imgui.*;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -111,7 +106,7 @@ public interface ImGuiMC {
      * @since 1.1.0
      ^/
     @Contract(value = "null->null", pure = true)
-    static ImGuiTextureProvider getTexture(final GpuTextureView texture) {
+    static ImGuiTextureProvider getTexture(final com.mojang.blaze3d.textures.GpuTextureView texture) {
         return (ImGuiTextureProvider) texture;
     }
 
@@ -122,169 +117,493 @@ public interface ImGuiMC {
      * @since 1.1.0
      ^/
     @Contract(value = "null->null", pure = true)
-    static ImGuiSampler getSampler(final GpuSampler sampler) {
+    static ImGuiSampler getSampler(final com.mojang.blaze3d.textures.GpuSampler sampler) {
         return (ImGuiSampler) sampler;
     }
     *///? }
 
-    static void image(final ImGuiTextureProvider userTexture, final ImVec2 size) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            final ImVec2 size) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        ImGui.image(imGuiId, size);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, final float sizeX, final float sizeY) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), sizeX, sizeY);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            final float sizeX,
+            final float sizeY) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        ImGui.image(imGuiId, sizeX, sizeY);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, final ImVec2 size, final ImVec2 uv0) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size, uv0);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            final ImVec2 size,
+            final ImVec2 uv0) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        ImGui.image(imGuiId, size, uv0);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, final float sizeX, final float sizeY, final float uv0X, final float uv0Y) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), sizeX, sizeY, uv0X, uv0Y);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        ImGui.image(imGuiId, sizeX, sizeY, uv0X, uv0Y);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size, uv0, uv1);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        ImGui.image(imGuiId, size, uv0, uv1);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        ImGui.image(imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1, final ImVec4 tintCol) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size, uv0, uv1, tintCol);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1,
+            final ImVec4 tintCol) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        ImGui.image(imGuiId, size, uv0, uv1, tintCol);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y, final float tintColX, final float tintColY, final float tintColZ, final float tintColW) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, tintColX, tintColY, tintColZ, tintColW);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y,
+            final float tintColX,
+            final float tintColY,
+            final float tintColZ,
+            final float tintColW) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        ImGui.image(imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, tintColX, tintColY, tintColZ, tintColW);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1, final ImVec4 tintCol, final ImVec4 borderCol) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size, uv0, uv1, tintCol, borderCol);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1,
+            final ImVec4 tintCol,
+            final ImVec4 borderCol) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        ImGui.image(imGuiId, size, uv0, uv1, tintCol, borderCol);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y, final float tintColX, final float tintColY, final float tintColZ, final float tintColW, final float borderColX, final float borderColY, final float borderColZ, final float borderColW) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, tintColX, tintColY, tintColZ, tintColW, borderColX, borderColY, borderColZ, borderColW);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y,
+            final float tintColX,
+            final float tintColY,
+            final float tintColZ,
+            final float tintColW,
+            final float borderColX,
+            final float borderColY,
+            final float borderColZ,
+            final float borderColW) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        ImGui.image(imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, tintColX, tintColY, tintColZ, tintColW, borderColX, borderColY, borderColZ, borderColW);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final ImVec2 size) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), size);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final ImVec2 size) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        ImGui.image(imGuiId, size);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final float sizeX, final float sizeY) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), sizeX, sizeY);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final float sizeX,
+            final float sizeY) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        ImGui.image(imGuiId, sizeX, sizeY);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final ImVec2 size, final ImVec2 uv0) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), size, uv0);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final ImVec2 size,
+            final ImVec2 uv0) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        ImGui.image(imGuiId, size, uv0);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final float sizeX, final float sizeY, final float uv0X, final float uv0Y) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), sizeX, sizeY, uv0X, uv0Y);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        ImGui.image(imGuiId, sizeX, sizeY, uv0X, uv0Y);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), size, uv0, uv1);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        ImGui.image(imGuiId, size, uv0, uv1);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        ImGui.image(imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1, final ImVec4 tintCol) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), size, uv0, uv1, tintCol);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1,
+            final ImVec4 tintCol) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        ImGui.image(imGuiId, size, uv0, uv1, tintCol);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y, final float tintColX, final float tintColY, final float tintColZ, final float tintColW) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, tintColX, tintColY, tintColZ, tintColW);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y,
+            final float tintColX,
+            final float tintColY,
+            final float tintColZ,
+            final float tintColW) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        ImGui.image(imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, tintColX, tintColY, tintColZ, tintColW);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1, final ImVec4 tintCol, final ImVec4 borderCol) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), size, uv0, uv1, tintCol, borderCol);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1,
+            final ImVec4 tintCol,
+            final ImVec4 borderCol) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        ImGui.image(imGuiId, size, uv0, uv1, tintCol, borderCol);
     }
 
-    static void image(final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y, final float tintColX, final float tintColY, final float tintColZ, final float tintColW, final float borderColX, final float borderColY, final float borderColZ, final float borderColW) {
-        ImGui.image(ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, tintColX, tintColY, tintColZ, tintColW, borderColX, borderColY, borderColZ, borderColW);
+    static void image(
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y,
+            final float tintColX,
+            final float tintColY,
+            final float tintColZ,
+            final float tintColW,
+            final float borderColX,
+            final float borderColY,
+            final float borderColZ,
+            final float borderColW) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        ImGui.image(imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, tintColX, tintColY, tintColZ, tintColW, borderColX, borderColY, borderColZ, borderColW);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, final ImVec2 size) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            final ImVec2 size) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        return ImGui.imageButton(strId, imGuiId, size);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, final float sizeX, final float sizeY) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), sizeX, sizeY);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            final float sizeX,
+            final float sizeY) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        return ImGui.imageButton(strId, imGuiId, sizeX, sizeY);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, final ImVec2 size, final ImVec2 uv0) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size, uv0);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            final ImVec2 size,
+            final ImVec2 uv0) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        return ImGui.imageButton(strId, imGuiId, size, uv0);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, final float sizeX, final float sizeY, final float uv0X, final float uv0Y) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), sizeX, sizeY, uv0X, uv0Y);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        return ImGui.imageButton(strId, imGuiId, sizeX, sizeY, uv0X, uv0Y);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size, uv0, uv1);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        return ImGui.imageButton(strId, imGuiId, size, uv0, uv1);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        return ImGui.imageButton(strId, imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1, final ImVec4 bgCol) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size, uv0, uv1, bgCol);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1,
+            final ImVec4 bgCol) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        return ImGui.imageButton(strId, imGuiId, size, uv0, uv1, bgCol);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y, final float bgColX, final float bgColY, final float bgColZ, final float bgColW) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, bgColX, bgColY, bgColZ, bgColW);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y,
+            final float bgColX,
+            final float bgColY,
+            final float bgColZ,
+            final float bgColW) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        return ImGui.imageButton(strId, imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, bgColX, bgColY, bgColZ, bgColW);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1, final ImVec4 bgCol, final ImVec4 tintCol) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), size, uv0, uv1, bgCol, tintCol);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1,
+            final ImVec4 bgCol,
+            final ImVec4 tintCol) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        return ImGui.imageButton(strId, imGuiId, size, uv0, uv1, bgCol, tintCol);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y, final float bgColX, final float bgColY, final float bgColZ, final float bgColW, final float tintColX, final float tintColY, final float tintColZ, final float tintColW) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, bgColX, bgColY, bgColZ, bgColW, tintColX, tintColY, tintColZ, tintColW);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y,
+            final float bgColX,
+            final float bgColY,
+            final float bgColZ,
+            final float bgColW,
+            final float tintColX,
+            final float tintColY,
+            final float tintColZ,
+            final float tintColW) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, null);
+        return ImGui.imageButton(strId, imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, bgColX, bgColY, bgColZ, bgColW, tintColX, tintColY, tintColZ, tintColW);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final ImVec2 size) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), size);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final ImVec2 size) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        return ImGui.imageButton(strId, imGuiId, size);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final float sizeX, final float sizeY) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), sizeX, sizeY);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final float sizeX,
+            final float sizeY) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        return ImGui.imageButton(strId, imGuiId, sizeX, sizeY);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final ImVec2 size, final ImVec2 uv0) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), size, uv0);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final ImVec2 size,
+            final ImVec2 uv0) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        return ImGui.imageButton(strId, imGuiId, size, uv0);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final float sizeX, final float sizeY, final float uv0X, final float uv0Y) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), sizeX, sizeY, uv0X, uv0Y);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        return ImGui.imageButton(strId, imGuiId, sizeX, sizeY, uv0X, uv0Y);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), size, uv0, uv1);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        return ImGui.imageButton(strId, imGuiId, size, uv0, uv1);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        return ImGui.imageButton(strId, imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1, final ImVec4 bgCol) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), size, uv0, uv1, bgCol);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1,
+            final ImVec4 bgCol) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        return ImGui.imageButton(strId, imGuiId, size, uv0, uv1, bgCol);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y, final float bgColX, final float bgColY, final float bgColZ, final float bgColW) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, bgColX, bgColY, bgColZ, bgColW);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y,
+            final float bgColX,
+            final float bgColY,
+            final float bgColZ,
+            final float bgColW) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        return ImGui.imageButton(strId, imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, bgColX, bgColY, bgColZ, bgColW);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final ImVec2 size, final ImVec2 uv0, final ImVec2 uv1, final ImVec4 bgCol, final ImVec4 tintCol) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), size, uv0, uv1, bgCol, tintCol);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final ImVec2 size,
+            final ImVec2 uv0,
+            final ImVec2 uv1,
+            final ImVec4 bgCol,
+            final ImVec4 tintCol) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        return ImGui.imageButton(strId, imGuiId, size, uv0, uv1, bgCol, tintCol);
     }
 
-    static boolean imageButton(final String strId, final ImGuiTextureProvider userTexture, @Nullable final ImGuiSampler sampler, final float sizeX, final float sizeY, final float uv0X, final float uv0Y, final float uv1X, final float uv1Y, final float bgColX, final float bgColY, final float bgColZ, final float bgColW, final float tintColX, final float tintColY, final float tintColZ, final float tintColW) {
-        return ImGui.imageButton(strId, ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler), sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, bgColX, bgColY, bgColZ, bgColW, tintColX, tintColY, tintColZ, tintColW);
+    static boolean imageButton(
+            final String strId,
+            final ImGuiTextureProvider userTexture,
+            @Nullable final ImGuiSampler sampler,
+            final float sizeX,
+            final float sizeY,
+            final float uv0X,
+            final float uv0Y,
+            final float uv1X,
+            final float uv1Y,
+            final float bgColX,
+            final float bgColY,
+            final float bgColZ,
+            final float bgColW,
+            final float tintColX,
+            final float tintColY,
+            final float tintColZ,
+            final float tintColW) {
+        final long imGuiId = ImGuiMCImpl.handler.getRenderer().getImGuiId(userTexture, sampler);
+        return ImGui.imageButton(strId, imGuiId, sizeX, sizeY, uv0X, uv0Y, uv1X, uv1Y, bgColX, bgColY, bgColZ, bgColW, tintColX, tintColY, tintColZ, tintColW);
     }
 
     interface ActiveContext extends AutoCloseable {
