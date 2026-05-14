@@ -1,4 +1,1 @@
-- Add support for Minecraft 1.21.4 -> 1.21.10
-- Add support for 26.2-snapshot-4 -> 26.2-snapshot-7
-- Fix render system error for 1.21.6+
-- Fix incorrect event method name
+- Fix RenderImGuiEventsNeoforge.Post not being fired

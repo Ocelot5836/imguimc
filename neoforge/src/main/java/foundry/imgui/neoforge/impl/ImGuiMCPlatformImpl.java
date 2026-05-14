@@ -25,7 +25,7 @@ public class ImGuiMCPlatformImpl implements ImGuiMCPlatform {
 
     @Override
     public void drawImGuiPost() {
-        NeoForge.EVENT_BUS.post(new RenderImGuiEventsNeoforge.Pre());
+        NeoForge.EVENT_BUS.post(new RenderImGuiEventsNeoforge.Post());
     }
 
     @Override
