@@ -138,6 +138,8 @@ public class ImGuiHandler {
             ImGui.render();
             if (this.windowImpl.isCorrectSize(framebufferWidth, framebufferHeight)) {
                 this.rendererImpl.renderDrawData(ImGui.getDrawData(), renderTarget);
+            } else {
+                this.rendererImpl.discard();
             }
 
             if (ImGui.getIO().hasConfigFlags(ImGuiConfigFlags.ViewportsEnable)) {

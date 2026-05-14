@@ -17,6 +17,8 @@ public interface ImGuiRenderer extends NativeResource {
 
     void renderDrawData(ImDrawData drawData, RenderTarget renderTarget);
 
+    void discard();
+
     void recreateFontsTexture();
 
     long getImGuiId(ImGuiTextureProvider texture, @Nullable ImGuiSampler sampler);

@@ -456,6 +456,12 @@ public class ImGuiRenderImplRenderSystem implements ImGuiRenderer {
     }
 
     @Override
+    public void discard() {
+        this.clearTextures();
+        this.clearVertexData(0);
+    }
+
+    @Override
     public void recreateFontsTexture() {
         this.destroyFontsTexture();
         this.createFontsTexture();

@@ -381,6 +381,10 @@ public class ImGuiRendererGL33 implements ImGuiRenderer {
     }
 
     @Override
+    public void discard() {
+    }
+
+    @Override
     public void recreateFontsTexture() {
         this.destroyFontsTexture();
         this.createFontsTexture();
